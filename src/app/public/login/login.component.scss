@@ -1,0 +1,186 @@
+.login-page-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .lock-icon-shadow {
+        overflow: hidden;
+        border-radius: 100%;
+        display: block;
+        position: absolute;
+        z-index: 8;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        transform: translateX(-50%) translateY(-50%);
+        box-shadow: 0 0 30px 0 rgba(0,0,0,.8);
+    }
+
+    .lock-icon-wrapper {
+        overflow: hidden;
+        border-radius: 100%;
+        display: block;
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        border-width: 5px;
+        border-style: solid;
+        transform: translateX(-50%) translateY(-50%);
+        box-sizing: border-box;
+        border-color: #252f3a;
+        background-color: #252f3a;
+
+        .lock-icon-container {
+            padding-top: 15px;
+
+            .icon-locked {
+                font-size: 5rem;
+            }
+        }
+    }
+
+    @media (max-width: 65em) {
+        .lock-icon-shadow, .lock-icon-wrapper {
+            display: none;
+        }
+    }
+
+    .login-background-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .login-background-container {
+            position: fixed;
+            left: -2.15937%;
+            top: -4.49443%;
+            width: 50%;
+            height: 100%;
+
+            .login-background {
+                position: absolute;
+                top: -20%;
+                left: -20%;
+                height: 140%;
+                width: 140%;
+                background-image: url('/assets/images/bg1.jpg');
+                background-position: 25% 50%;
+                background-size: cover;
+                background-repeat: no-repeat;
+                transition: all 1s ease-in-out;
+            }
+        }
+    }
+
+    .login-area {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        background: #1c262f;
+        box-shadow: 0 0 30px 0 rgba(0,0,0,.8);
+        border-color: #252f3a;
+
+        @media (max-width: 65em) {
+            left: 0;
+            width: 100%;
+            padding: 30px;
+        }
+
+        @media (max-height: 650px){
+            height: auto;
+            min-height: 100%;
+            overflow: auto;
+        }
+
+        .login-form-wrapper {
+            display: block;
+            margin: 60px auto 0;
+            width: 100%;
+            max-width: 400px;
+
+            @media (min-height: 45em) and (min-width: 65em)
+            {
+                margin-top: 0;
+                position: absolute;
+                top: 45%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+            .login-team-title {
+                font-size: 3.6rem;
+            }
+
+            .login-team-desc {
+                margin-bottom: 40px;
+                color: #78828d;
+            }
+
+            .login-action-container {
+                margin-top: 60px;
+
+                .btn-go {
+                    width: 75%;
+                    transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+                    border-radius: 5px;
+                    padding: 20px 30px;
+                    position: relative;
+                    border: 1px solid rgba(246, 252, 255, 0.4);
+                    cursor: pointer;
+                    overflow: hidden;
+                    font-size: 100%;
+
+                    &.btn-back {
+                        width: auto;
+                    }
+                }
+            }
+        }
+
+        .login-area-footer {
+            margin-top: 0;
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 30px;
+            text-align: center;
+
+            @media (max-width: 65em) {
+                position: relative;
+                margin-top: 40px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+            }
+
+            @media (max-height: 650px) {
+                position: relative;
+                margin-top: 40px;
+                margin-bottom: 40px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+            }
+
+            .login-area-footer-copyright {
+                margin-top: 20px;
+            }
+        }
+    }
+		
+	#select-login-type {
+		cursor: pointer;
+	}
+	.notice-board-item {
+		border: 1px solid;
+		padding: 0 5px 0px 5px;
+	}
+}

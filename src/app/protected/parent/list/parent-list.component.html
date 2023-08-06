@@ -1,0 +1,65 @@
+<app-loading [condition]="loading"></app-loading>
+
+<div fxLayout="row" fxLayout="start center" fxLayoutGap="20px">
+    <mat-form-field>
+        <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+            autocomplete="off" />
+    </mat-form-field>
+
+    <div *ngIf="filterEvent" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="filter-name-container" fxLayoutAlign="center center">
+            <div class="filter-name-wrapper">
+                <div class="filter-name">{{ filterEventName }}</div>
+                <span class="filter-name-clear" (click)="onNameClear()">
+                    <mat-icon>close</mat-icon>
+                </span>
+            </div>
+        </div>
+        <button routerLink="/dashboard/event" mat-raised-button color="accent" class="mr-10">Back to Events</button>
+		
+    </div>
+	 <div *ngIf="!filterEvent" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="filter-name-container" fxLayoutAlign="center center">
+            
+        </div>
+        <button *ngIf="isMainAdmin && accountType=='Parks'" mat-raised-button color="accent" class="mr-10 " (click)="saveParentInfo()" >Sync parents</button>
+		
+    </div>
+	
+</div>
+<div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th app-th-sort [colName]="'Name'" [defaultDirection]="'asc'" (sort)="onSort($event, 'name')"></th>
+                    <th *ngIf="isMainAdmin && accountType=='Parks'"  app-th-sort [colName]="'Town'" (sort)="onSort($event, '_town_name')">Town</th>
+                    <th *ngIf="isMainAdmin && accountType=='Parks'"  app-th-sort [colName]="'County'" (sort)="onSort($event, '_county_name')">County</th>
+                    <th app-th-sort [colName]="'Email'" (sort)="onSort($event, 'local.email')"></th>
+                    <th app-th-sort [colName]="'Park Events'" *ngIf="isMainAdmin && accountType=='Parks'" (sort)="onSort($event, 'eventcount')"></th>
+                    <th app-th-sort [colName]="'Last Date Attended'" *ngIf="isMainAdmin && accountType=='Parks'" (sort)="onSort($event, 'lastrunsession')"></th>
+                    <th app-th-sort [colName]="'Marketing'" (sort)="onSort($event, 'marketing')"></th>
+                    <th app-th-sort [colName]="'Volunteered'" *ngIf="isMainAdmin && accountType=='Parks'" (sort)="onSort($event, 'volunteercount')">Volunteered</th>
+                    <th app-th-sort [colName]="'Marathon Kids (Schools)'" *ngIf="isMainAdmin && accountType=='Parks'" (sort)="onSort($event, 'school_count')"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parents">
+                    <td>{{ row.name }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.townData.length > 0 ? row.townData[0].name : '' }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.countyData.length > 0 ? row.countyData[0].name : '' }}</td>
+                    <td>{{ row.local.email }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._events_name ? row._events_name : '-') }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.lastrunsession ? (row.lastrunsession | date:'dd-MM-yyyy') : '-' }}</td>
+                    <td>
+                        <span><i [ngClass]="row.marketing ? 'icon-tick' : 'icon-unchecked'"></i></span>
+                    </td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row.volunteercount) }}</td>
+					<td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.schoolnames ? row.schoolnames : 'Not A Schools Runner' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" (page)="handlePage($event)" #paginator></app-paginator>
+</div>

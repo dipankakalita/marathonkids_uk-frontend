@@ -1,0 +1,39 @@
+.mat-dialog-container {
+    padding: 0 !important;
+    background-color: #252f3a;
+
+    .dialog-header {
+        height: 60px;
+        padding: 15px;
+        border: 1px solid #37424c;
+        background-color: #1c262f;
+        
+        .header-title {
+            vertical-align: middle;
+            line-height: 30px;
+        }
+    }
+
+    .dialog-body {
+        padding: 30px;
+        min-height: 170px;
+        max-height: 80vh;
+        overflow-y: auto;
+        border: 1px solid #37424c;
+        text-align: center;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+
+    .dialog-footer {
+        height: 60px;
+        padding: 10px;
+        border: 1px solid #37424c;
+    }
+}
+
+.cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}

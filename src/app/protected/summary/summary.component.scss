@@ -1,0 +1,41 @@
+.dashboard-options {
+    display: block;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.dashboard-container-row {
+    margin-bottom: 20px;
+}
+
+.dashboard-card {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.body-last>div {
+    border-top: 1px solid #37424c;
+}
+
+.filter-fields {
+    min-width: 0;
+}
+
+.optionsFull {
+    .mat-form-field-infix {
+        width: auto !important;
+    }
+    .mat-select-value {
+        max-width: none !important;
+        width: auto !important;
+    }
+}
+
+.mat-tab-label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mat-tab-label-active {
+    color: white;
+}

@@ -1,0 +1,100 @@
+<div>
+  <div class="dashboard-header dashboard-header-shine">
+
+    <!-- top nav menu -->
+    <div class="top-nav">
+
+      <!-- left menu -->
+      <div class="left-menu">
+        <ul class="ul-menu">
+          <ng-container *ngIf="authService.isAccountAdmin() || authService.isAdmin()">
+            <li>
+              <a routerLinkActive="active" routerLink="/dashboard/forms">Reg Group</a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="/dashboard/course">Courses</a>
+            </li>
+            <ng-container *ngIf="authService.isAccountAdmin()">
+              <li>
+                <a routerLinkActive="active" routerLink="/dashboard/audit">Login History</a>
+              </li>
+            </ng-container>
+			<li class="school-program">
+				<a href="#" (click)="onAutoScan($event)" >Print QR codes</a>
+			</li>
+			<li class="upgrade-btn" *ngIf="curAccount.school_scanner == false" >
+				<a href="#" (click)="onUpgrade($event)" >UPGRADE</a>
+			</li>
+          </ng-container>
+        </ul>
+      </div>
+      <!--./ left menu -->
+
+      <!-- right menu -->
+      <div class="right-menu">
+        <ul class="ul-menu">
+          <ng-container *ngIf="authService.isAccountAdmin() || authService.isAdmin()">
+            <li>
+              <a routerLinkActive="active" routerLink="/dashboard/user">Users</a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="authService.isAccountAdmin()">
+            <li>
+              <a href="#" (click)="onSetting($event)">Settings</a>
+            </li>
+            <li>
+              <a href="#" (click)="onProfile($event)">{{ curUser?.name }}</a>
+            </li>
+          </ng-container>
+          <li>
+            <a href="#" (click)="onLogOut($event)">Logout</a>
+          </li>
+        </ul>
+      </div>
+      <!--./ right menu  -->
+
+    </div>
+    <!--./ top nav menu -->
+
+    <!-- account select -->
+    <div class="account-select">
+      <img src="assets/images/MK_LOGO_WHT.png" class="font-image"/><h1 class="h--epic color-text-blue account-name"><span class="parks-program welcome-label">{{ curAccount?.school_name }}</span></h1>
+	  
+      <div class="header-notice-section" *ngFor="let row of notices">
+        <button id = "x" (click)="onDelete(row._id)"> X </button>
+        <h3>{{ row.heading }}</h3>
+        <p>{{ row.message }}</p>
+      </div>
+    </div>
+    <!-- account select -->
+
+    <!-- main menu -->
+    <div class="main-menu">
+      <ul class="ul-menu">
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/summary">Summary</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/run">Runs</a>
+        </li>
+        <ng-container *ngIf="!authService.isLimited()">
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/runner">Runners</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/certificate">Certificates</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/leaderboard">Leaderboard</a>
+          </li>
+        </ng-container>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/support">Support Tools</a>
+        </li>
+      </ul>
+    </div>
+    <!--./ main menu -->
+
+  </div>
+
+</div>

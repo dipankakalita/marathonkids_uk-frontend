@@ -1,0 +1,66 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body">
+         <!-- Year Region -->
+         <mat-form-field>
+            <mat-label>Display On</mat-label>
+            <mat-select formControlName="display_on">
+                <mat-option *ngFor="let option of options" [value]="option._id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('display_on')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Year Region -->
+
+        <mat-form-field class="mb-15">
+            <input formControlName="heading" matInput placeholder="Heading" autocomplete="off" [maxlength]="maxCharsHeading" /><mat-hint>Characters Remaining: {{rolehead.length}}/{{maxCharsHeading}}</mat-hint>
+            <mat-error *ngIf="isInvalid('heading')">
+                Field is required
+            </mat-error>
+        </mat-form-field>        
+
+        <mat-form-field class="mb-15">
+            <textarea formControlName="message" matInput placeholder="Message" rows="4" [maxlength]="maxChars" ></textarea>
+			<mat-hint>Characters Remaining: {{role.length}}/{{maxChars}}</mat-hint>
+            <mat-error *ngIf="isInvalid('message')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+       
+        <mat-form-field>
+            <input formControlName="start_date" matInput [matDatepicker]="start_date" placeholder="Start Date"
+                (click)="start_date.open()" readonly />
+            <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+            <mat-datepicker #start_date></mat-datepicker>
+            <mat-error *ngIf="isInvalid('start_date')">
+                Field is required
+            </mat-error>
+        </mat-form-field>  
+        
+        <mat-form-field>
+            <input formControlName="expiry_date" matInput [matDatepicker]="expiry_date" placeholder="Expiry Date"
+                (click)="expiry_date.open()" readonly>
+            <mat-datepicker-toggle matSuffix [for]="expiry_date"></mat-datepicker-toggle>
+            <mat-datepicker #expiry_date></mat-datepicker>
+            <mat-error *ngIf="isInvalid('expiry_date')">
+                Field is required
+            </mat-error>
+        </mat-form-field> 
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

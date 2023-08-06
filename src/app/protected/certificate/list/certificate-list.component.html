@@ -1,0 +1,47 @@
+<app-loading [condition]="loading"></app-loading>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+        <mat-form-field>
+            <mat-select [(ngModel)]="searchForm.printStatus" (selectionChange)="onFilterPrint()">
+                <mat-option [value]="false">Not Printed</mat-option>
+                <mat-option [value]="true">Printed</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+                autocomplete="off" />
+        </mat-form-field>
+    </div>
+
+    <div class="mb-10">
+        <a href="#" style="margin-left: auto; margin-right: 30px" (click)="onPrintCurrentAll($event)">Print All At Current Distance</a>
+        <a href="#" style="margin-left: auto; margin-right: 30px" (click)="onPrintAll($event)">Print All</a>
+		<button mat-raised-button color="accent" class="mr-10 pull-right" (click)="syncCertificates()">Sync Certificates</button>
+    </div>
+</div>
+
+<div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th app-th-sort [colName]="'Name'" [defaultDirection]="'asc'" (sort)="onSort($event, 'runner_name')"></th>
+                    <th app-th-sort [colName]="'Reg Group'" (sort)="onSort($event, 'form_name')"></th>
+                    <th app-th-sort [colName]="'Milestone'" (sort)="onSort($event, 'distance')"></th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cert of certificates">
+                    <td>{{ cert.runner_name }}</td>
+                    <td>{{ cert.form_name }}</td>
+                    <td>{{ (cert.distance / 1000) | number:'0.1-1' }}km</td>
+                    <td><span class="icon-print btn-action" (click)="onPrint(cert)"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" (page)="handlePage($event)" #paginator></app-paginator>
+</div>

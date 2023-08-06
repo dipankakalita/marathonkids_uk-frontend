@@ -1,0 +1,12 @@
+﻿<div class="alerts">
+    <div class="alert" id="alert-error" 
+        [ngClass]="{'alert-active': message, 'alert-success': message?.type === 'success', 'alert-warning': message?.type === 'error'}">
+        <div class="alert-wrapper" *ngIf="message">
+            <button class="btn-naked alert-close" (click)="alertDismiss()"><i class="icon-cross alert__close-icon"></i></button>
+            <div class="alert-header">
+                <strong class="alert__title">{{ message.text }}
+                </strong>
+            </div>
+        </div>
+    </div>
+</div>

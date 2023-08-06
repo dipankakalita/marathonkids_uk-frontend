@@ -1,0 +1,63 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px">
+        <!-- Year Name -->
+        <mat-form-field>
+            <input formControlName="name" matInput placeholder="Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Year Name -->
+
+        <!-- Start Date -->
+        <mat-form-field>
+            <input formControlName="start_date" matInput [matDatepicker]="start_date" placeholder="Start Date"
+                (click)="start_date.open()" readonly>
+            <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+            <mat-datepicker #start_date></mat-datepicker>
+            <mat-error *ngIf="isInvalid('start_date')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Start Date -->
+        <!-- Year Region -->
+        <mat-form-field>
+            <mat-label>County</mat-label>
+            <mat-select formControlName="_county_id">
+                <mat-option *ngFor="let counties of county" [value]="counties._id">{{ counties.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_county_id')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+		<mat-form-field>
+            <mat-label>Town</mat-label>
+            <mat-select formControlName="_town_id">
+                <mat-option *ngFor="let towns of town" [value]="towns._id">{{ towns.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_town_id')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+		<mat-form-field  class="mb-15">
+            <input formControlName="post_code" matInput placeholder="Post Code" autocomplete="off" />
+        </mat-form-field>
+        <!--./ Year Region -->
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

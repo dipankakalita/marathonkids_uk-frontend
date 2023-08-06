@@ -1,0 +1,14 @@
+<div class="dialog-header">
+    <div class="header-title">
+        Important
+    </div>
+</div>
+<div class="dialog-body" [innerHTML]="confirmMessage">
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" class="h-100" fxLayoutAlign="center center">
+        <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+            (click)="dialogRef.close(false)">OK</button>
+    </div>
+</div>

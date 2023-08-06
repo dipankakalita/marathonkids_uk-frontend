@@ -1,0 +1,127 @@
+<app-loading [condition]="loading || loadingRegions"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px">
+        <!-- name -->
+        <mat-form-field>
+            <input formControlName="school_name" matInput placeholder="Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('school_name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ name -->
+
+        <!-- subdomain -->
+        <mat-form-field>
+            <input formControlName="subdomain" matInput placeholder="Subdomain" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('subdomain')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ subdomain -->
+
+        <!-- school type -->
+        <mat-form-field>
+            <mat-label>School Type</mat-label>
+            <mat-select formControlName="school_type" disableOptionCentering>
+                <mat-option *ngFor="let type of schoolTypes" [value]="type.value">{{ type.label }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('school_type')">Field is required</mat-error>
+        </mat-form-field>
+        <!--./ school type -->
+
+        <!-- counties -->
+        <mat-form-field *ngIf="counties">
+            <mat-label>County</mat-label>
+            <mat-select formControlName="location._county_id" (selectionChange)="onSelectCounty($event.value)"
+                disableOptionCentering>
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No counties found.'"
+                        [formControl]="countyFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+
+                <mat-option *ngFor="let county of filteredCounties | async" [value]="county._id">{{ county.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('location._county_id')">Field is required</mat-error>
+        </mat-form-field>
+        <!--./ counties -->
+
+        <!-- towns -->
+        <mat-form-field>
+            <mat-label>Town (or London Borough)</mat-label>
+            <mat-select formControlName="location._town_id" disableOptionCentering>
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No towns found.'"
+                        [formControl]="townFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+
+                <mat-option *ngFor="let town of filteredTowns | async" [value]="town._id">
+                    {{ town.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('location._town_id')">Field is required</mat-error>
+        </mat-form-field>
+        <!--./ towns -->
+
+        <!-- Year Region -->
+        <mat-form-field>
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="_academic_year_region">
+                <mat-option *ngFor="let region of yearRegions" [value]="region._id">{{ region.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_academic_year_region')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Year Region -->
+
+        <!-- post code -->
+        <mat-form-field>
+            <input formControlName="location.postcode" matInput placeholder="Post Code" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('location.postcode')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ post code -->
+
+        <!-- contact name -->
+        <mat-form-field>
+            <input formControlName="contact_name" matInput placeholder="Contact Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('contact_name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ contact name -->
+
+        <!-- phone number -->
+        <mat-form-field>
+            <input formControlName="phone_number" matInput placeholder="Phone Number" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('phone_number')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ phone number -->
+
+        <div class="terms-agree">
+            <mat-checkbox formControlName="settings.leaderboard_opt_in">Leaderboard Opt In</mat-checkbox>
+            <div class="terms-agree-underline"></div>
+        </div>
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

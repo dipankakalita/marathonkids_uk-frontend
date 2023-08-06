@@ -1,0 +1,116 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body">
+
+        <!-- permission -->
+        <mat-form-field class="mb-15">
+            <mat-label>Permission Profile</mat-label>
+            <mat-select formControlName="_profile_id" disableOptionCentering (selectionChange)="onChangeRole()">
+                <mat-option *ngFor="let permission of permissions" [value]="permission.id">{{ permission.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_profile_id')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ permission -->
+
+        <!-- name -->
+        <mat-form-field class="mb-15">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput placeholder="ex: John Smith" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ name -->
+
+        <!-- when profile is not limited -->
+        <ng-container *ngIf="controls._profile_id.value != permProfiles[5].id">
+            <!-- email -->
+            <mat-form-field class="mb-15">
+                <input formControlName="email_address" matInput placeholder="Email" autocomplete="off"
+                    [readonly]="formType==1" [ngClass]="{'fg-grey': formType==1}" />
+                <mat-error *ngIf="isInvalid('email_address')">
+                    <ng-container *ngIf="controls.email_address.errors.required">Field is required</ng-container>
+                    <ng-container *ngIf="controls.email_address.errors.pattern">Only vaid email addresses are allowed
+                    </ng-container>
+                </mat-error>
+            </mat-form-field>
+            <!--./ email -->
+        </ng-container>
+
+        <!-- when profile is limited -->
+        <ng-container *ngIf="controls._profile_id.value == permProfiles[5].id">
+            <!-- username -->
+            <mat-form-field class="mb-15">
+                <input formControlName="username" matInput placeholder="Username" autocomplete="new-password"
+                    [readonly]="formType==1" [ngClass]="{'fg-grey': formType==1}"/>
+                <mat-error *ngIf="isInvalid('username')">
+                    Field is required
+                </mat-error>
+            </mat-form-field>
+            <!--./ username -->
+
+            <!-- password -->
+            <mat-form-field class="mb-15">
+                <input formControlName="password" type="password" matInput placeholder="Password"
+                    autocomplete="new-password" appShowPassword>
+                <mat-error *ngIf="isInvalid('password')">
+                    Field is required
+                </mat-error>
+            </mat-form-field>
+            <!--./ password -->
+
+            <!-- password confirmation -->
+            <mat-form-field>
+                <input formControlName="password_confirmation" type="password" matInput placeholder="Verify Password"
+                    autocomplete="new-password" appShowPassword>
+                <mat-error *ngIf="isInvalid('password_confirmation')">Password is not match</mat-error>
+            </mat-form-field>
+            <!-- password confirmation -->
+        </ng-container>
+
+        <!-- phone number -->
+        <mat-form-field *ngIf="controls._profile_id.value != permProfiles[5].id" class="mb-15">
+            <mat-label>Phone Number</mat-label>
+            <input formControlName="phone_number" matInput autocomplete="new-password" />
+        </mat-form-field>
+        <!--./ phone number -->
+
+        <!-- account id -->
+        <mat-form-field *ngIf="authService.isMainAdmin() && controls._profile_id.value != '58cbc4407d391b1b49591ad5'" class="mb-15">
+            <mat-label>School</mat-label>
+            <mat-select formControlName="_account_id" disableOptionCentering [attr.disabled]="formType === 1">
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No account found.'"
+                        [formControl]="accountFilterCtrl" [placeholderLabel]="'Search'">
+                    </ngx-mat-select-search>
+                </mat-option>
+
+                <mat-option *ngFor="let account of filteredAccounts | async" [value]="account._id">{{ account.school_name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_account_id')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!-- account id -->
+
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

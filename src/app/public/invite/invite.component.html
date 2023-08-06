@@ -1,0 +1,36 @@
+<div class="register-page-wrapper public-page-wrapper">
+    <app-loading [condition]="loading"></app-loading>
+    <!-- register area -->
+    <div class="register-area">
+        <div class="register-content">
+            <h1 class="register-title h--epic color-text-grey text-center">{{ contentTitle }}</h1>
+
+            <div class="register-form-area">
+                <div class="form">
+                    <app-alert></app-alert>
+
+                    <form [formGroup]="form" (ngSubmit)="onSubmit($event)" fxLayout="column">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" formControlName="email" readonly />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="password" placeholder="Password" formControlName="password" appShowPassword />
+                            <mat-error *ngIf="isInvalid('password')">Field is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input formControlName="password_confirmation" type="password" matInput
+                                placeholder="Verify Password" autocomplete="off" appShowPassword>
+                            <mat-error *ngIf="isInvalid('password_confirmation')">Password is not match</mat-error>
+                        </mat-form-field>
+
+                        <div class="login-action-container">
+                            <button mat-raised-button type="submit" class="btn btn--primary btn-go"
+                                [disabled]="form.invalid">Go</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--./ register area -->
+</div>

@@ -1,0 +1,28 @@
+table {
+    .th-label, .td-label {
+        width: 70%;
+    }
+
+    .th-action, .td-action {
+        text-align: center;
+        width: 30%;
+    }
+
+    td {
+        line-height: 1.7;
+    }
+}
+
+.upgrade-btn{
+    font-weight: bold;
+    background: white;
+    padding: 1px 10px;
+    font-size: 20px;
+    color: #a91c1f !important;
+    letter-spacing: 1px;
+    text-shadow: unset !important;
+} 
+
+.text-white{
+    color: #f6fcff;
+}

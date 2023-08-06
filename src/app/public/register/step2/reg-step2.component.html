@@ -1,0 +1,129 @@
+<app-loading [condition]="loadingChkEmail"></app-loading>
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" fxLayout="column" fxLayoutGap="15px">
+    <mat-form-field>
+        <mat-label>Your Name</mat-label>
+        <input formControlName="contact_name" matInput placeholder="ex: John Smith" autocomplete="off">
+        <mat-error *ngIf="isInvalid('contact_name')">Field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input formControlName="phone_number" matInput placeholder="Your Phone Number" autocomplete="off">
+        <mat-hint>Note : We will add you to a regionalised teachers WhatsApp group using this number. You can remove yourself from this group at any time.</mat-hint>
+        <mat-error *ngIf="isInvalid('phone_number')">Field is required</mat-error>
+    </mat-form-field>
+
+    <!-- <span class="color-text-grey">(This will be part of your login for all DTS users at your School)</span> -->
+    <mat-form-field>
+        <mat-label>Team Name</mat-label>
+        <input formControlName="subdomain" matInput placeholder="(This will be part of your login for all DTS users at your School)" autocomplete="off">
+        <mat-error *ngIf="isInvalid('subdomain')">
+            <ng-container *ngIf="controls.subdomain.errors.required">Field is required</ng-container>
+            <ng-container *ngIf="controls.subdomain.errors.duplicate"><span class="server-error">Team name has already been registered.</span></ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <!-- <span class="color-text-grey">(This must be your School Email & will be your username for the DTS)</span> -->
+    <mat-form-field>
+        <mat-label>Your Email</mat-label>
+        <input formControlName="school_email" matInput placeholder="(This must be your School Email & will be your username for the DTS)" autocomplete="off">
+        <label class="input_glyph-wrapper">
+            <i class="input_glyph icon-input-email"></i>
+        </label>
+        <mat-error *ngIf="isInvalid('school_email')">
+            <ng-container *ngIf="controls.school_email.errors.required">Field is required</ng-container>
+            <ng-container *ngIf="controls.school_email.errors.pattern">Only vaid email addresses are allowed</ng-container>
+            <ng-container *ngIf="controls.school_email.errors.duplicate"><span class="server-error">Email has already been registered.</span></ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input formControlName="school_email_confirmation" matInput placeholder="Repeat Email" autocomplete="off">
+        <label class="input_glyph-wrapper">
+            <i class="input_glyph icon-input-email"></i>
+        </label>
+        <mat-error *ngIf="isInvalid('school_email_confirmation')">Email is not match</mat-error>        
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input formControlName="password" type="password" matInput placeholder="(This password is specific to your DTS login only)"
+            autocomplete="off" appShowPassword>
+        <mat-error *ngIf="isInvalid('password')">
+            <ng-container *ngIf="controls.password.errors.required">Field is required</ng-container>
+            <!-- <ng-container *ngIf="controls.password.errors.pattern">
+                Password should contain
+                ( at least 1 uppercase letter,
+                at least 1 lowercase letter,
+                at least 1 digit,
+                at least 8 characters)
+            </ng-container> -->
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input formControlName="password_confirmation" type="password" matInput placeholder="Verify Password"
+            autocomplete="off" appShowPassword>
+        <mat-error *ngIf="isInvalid('password_confirmation')">Password is not match</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input formControlName="receiption_name" matInput placeholder="Your School's Receptionist's Name" autocomplete="off">
+        <mat-error *ngIf="isInvalid('receiption_name')">
+            <ng-container *ngIf="controls.receiption_name.errors.required">Field is required</ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input formControlName="receiption_email" matInput placeholder="Receptionist's Email" autocomplete="off">
+        <mat-error *ngIf="isInvalid('receiption_email')">
+            <ng-container *ngIf="controls.receiption_email.errors.required">Field is required</ng-container>
+            <ng-container *ngIf="controls.receiption_email.errors.pattern">Only vaid email addresses are allowed</ng-container>
+            <ng-container *ngIf="controls.receiption_email.errors.duplicate"><span class="server-error">Email has already been registered.</span></ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <div>
+        <div class="input-html">
+            To continue you must read and agree to the
+            <a routerLink="/legal" target="_blank" class="color-text-grey" style="text-decoration: underline">Privacy Policy</a>
+            and 
+            <a routerLink="/terms" target="_blank" class="color-text-grey" style="text-decoration: underline">Terms and Conditions.</a>
+        </div>
+    </div>
+
+    <div class="terms-agree">
+        <mat-checkbox formControlName="terms_agreement">I have read and agree to the Privacy Policy</mat-checkbox>
+        <div class="terms-agree-underline"></div>
+        <mat-error [style.visibility]="isInvalid('terms_agreement') ? 'visible' : 'hidden'">Field is required</mat-error>
+    </div>
+
+    <div class="terms-agree">
+        <mat-checkbox formControlName="legal_agreement">I have read and agree to the Terms and Conditions</mat-checkbox>
+        <div class="terms-agree-underline"></div>
+        <mat-error [style.visibility]="isInvalid('legal_agreement') ? 'visible' : 'hidden'">Field is required</mat-error>
+    </div>
+
+    <div>
+        <div class="input-html">
+            For the means of supporting you throughout the programme, we need to communicate with you, the Marathon Champion. Please tick the boxes below to say you agree.
+        </div>
+    </div>
+
+    <div class="terms-agree">
+        <mat-checkbox formControlName="contact_agreement">I agree for Marathon Kids to contact me by email and telephone for the purpose of programme information, support and requesting feedback.</mat-checkbox>
+        <div class="terms-agree-underline"></div>
+        <mat-error [style.visibility]="isInvalid('contact_agreement') ? 'visible' : 'hidden'">Field is required</mat-error>
+    </div>
+
+    <div class="terms-agree">
+        <mat-checkbox formControlName="newsletter_agreement">To hear more about the Marathon Kids programmes, please sign up to receive the Marathon Kids Newsletter.</mat-checkbox>
+        <div class="terms-agree-underline"></div>
+    </div>
+    
+    <div class="form-action" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" class="btn btn--primary btn-continue"
+            (click)="onBack()">Back</button>
+        <button mat-raised-button type="submit" class="btn btn--primary btn-continue"
+            [disabled]="form.invalid">Next</button>
+    </div>
+</form>

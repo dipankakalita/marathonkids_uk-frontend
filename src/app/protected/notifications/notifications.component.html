@@ -1,0 +1,39 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dashboard-action">
+    <button mat-raised-button color="accent" (click)="onAdd()"><mat-icon>add</mat-icon></button>
+</div>
+<div class="container">
+    
+    <div class="row">
+        
+        <div class="col-12">            
+            <div class="col second">
+               
+                <div class="notification-list-section">                            
+
+                <div class="container" *ngFor="let row of notices">
+                    <div class="row second_1">
+                        <div class="col-2 border-right">
+                            <p class="display_on_class">{{ options[row.display_on]}}</p>
+                            <button type="button" class="btn_edit" (click)="onEdit(row)">EDIT</button>
+                            <button type="button" class="btn_delete" (click)="onDelete(row._id)" >DELETE</button>
+                        </div>
+                        <div class="col-10 border-left">
+                            <p class="pera1">{{ row.heading }} </p>
+
+                            <p class="pera2">{{ row.message }}</p>
+                            <p class="pera3">Start date- {{ row.start_date | date:"mediumDate" }}</p>
+                            <p class="pera3">Expiry date- {{ row.expiry_date | date:"mediumDate" }}</p>
+                        </div>
+                    </div>                   
+                </div>
+                <div class="container" *ngIf="notices?.length == 0 "> Notification not found </div>
+            </div> 
+                
+            </div>
+        </div> <!-- 50% -->      
+
+      </div>  
+    
+</div>
+  

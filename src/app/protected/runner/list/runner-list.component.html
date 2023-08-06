@@ -1,0 +1,117 @@
+<app-loading [condition]="loading"></app-loading>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+    <mat-form-field>
+        <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+            autocomplete="off" />
+    </mat-form-field>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+        <a href="#" (click)="onPrintRunner($event)" *ngIf="accountType!=='Parks'">Print Runner Reports</a>
+        <a href="#" (click)="onPrintAll($event)" *ngIf="accountType!=='Parks'">Print Recording Sheets</a>
+        <a href="#" (click)="onResendToParent($event)" *ngIf="accountType!=='Parks'">Send Parent App Email</a>
+        <input #importCSV type="file" id="file-import" class="d-none" (change)="onImportFile($event)" accept=".csv,text/plain" *ngIf="accountType!=='Parks'"/>
+        <a href="" (click)="onClickImport($event)" *ngIf="accountType!=='Parks'" >Import CSV(Runners)</a>
+		<button mat-raised-button color="accent" class="mr-10 pull-right" (click)="saveRunnerInfo()" *ngIf="isMainAdmin && accountType=='Parks'">Sync Runners</button> 
+		<button mat-raised-button color="accent" class="mr-10 pull-right" (click)="syncSessionDTS(true)" *ngIf="accountType!=='Parks'">Sync Data</button>
+    </div>
+</div>
+
+<div class="dashboard-action" *ngIf="accountType!=='Parks'">
+    <button mat-raised-button color="accent" (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<div>
+	<div *ngIf="isMainAdmin && accountType=='Parks'"><mat-hint>Note: Attendance is calculated based on Last 52 weeks from today.</mat-hint></div>
+	<p *ngIf="accountType!=='Parks'" class="color-text-grey">Note: Runs with overall zero total distance will not be considered for sessions, participation and attendance calculations.</p>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr *ngIf="accountType!=='Parks'">
+                    <th app-th-sort [colName]="'Name'" [defaultDirection]="'asc'" (sort)="onSort($event, 'name')"></th>
+                    <th app-th-sort [colName]="'Reg Group'" *ngIf="accountType!=='Parks' && accountType!=='Schools'" (sort)="onSort($event, 'form_name')"></th>
+                    <th app-th-sort [colName]="'Year Group'" (sort)="onSort($event, 'year_group')"></th>
+                    <th app-th-sort [colName]="'Participated'" (sort)="onSort($event, '_total_participation')"></th>
+                    <th app-th-sort [colName]="'Internal Distance'" (sort)="onSort($event, '_total_verified_distance')"></th>
+                    <th>Milestones</th>
+                    <th app-th-sort [colName]="'Attendance'" (sort)="onSort($event, '_total_participation')"></th>
+                    <th app-th-sort [colName]="'External Distance'" (sort)="onSort($event, '_total_unverified_distance')"></th>
+                    <th app-th-sort [colName]="'Total Distance'" (sort)="onSort($event, '_total_distance')"></th>
+                    <th >Action</th>
+                </tr>
+				
+                <tr *ngIf="isMainAdmin && accountType=='Parks'">
+                    <th app-th-sort [colName]="'Name'" [defaultDirection]="'asc'" (sort)="onSort($event, 'name')"></th>
+                    <th app-th-sort [colName]="'Year Group'" (sort)="onSort($event, 'year_group')"></th>
+                    <th app-th-sort [colName]="'Milestones'" (sort)="onSort($event, '_total_unverified_distance')">Milestones</th>
+                    <th app-th-sort [colName]="'First Session'" (sort)="onSort($event, 'firstrunsession')"></th>
+                    <th app-th-sort [colName]="'Attendance (Monthly)'" (sort)="onSort($event, '_total_monthly_attendance')"></th>
+                    <th app-th-sort [colName]="'Attendance (Fortnightly)'" (sort)="onSort($event, '_total_fortnightly_attendance')"></th>
+                    <th app-th-sort [colName]="'Attendance (Weekly)'" (sort)="onSort($event, '_total_weekly_attendance')"></th>
+                    <th app-th-sort [colName]="'Park Events'" (sort)="onSort($event, '_event_count')">Park Events</th>
+                    <th app-th-sort [colName]="'County'" (sort)="onSort($event, 'countyInfo.name')">County</th>
+                    <th app-th-sort [colName]="'Town'" (sort)="onSort($event, 'townsInfo.name')">Town</th>
+                    <th app-th-sort [colName]="'Total Distance'" (sort)="onSort($event, '_total_unverified_distance')"></th>
+                    <th app-th-sort [colName]="'Marathon Kids (Schools)'" *ngIf="isMainAdmin && accountType=='Parks'" (sort)="onSort($event, 'schoolData.school_name')"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of runners">
+                    <td>{{ row.name }}</td>
+					<td *ngIf="accountType!=='Parks' && accountType!=='Schools'">{{ row.form_name }}</td>
+                    <td>{{ yearGroups[row.year_group]?.label }}</td>
+					<td *ngIf="accountType!=='Parks'">{{ row.data ? ((row.data[curYearId]) ? row.data[curYearId].participated 
+					+ "/" + (row.data[curYearId].participated + row.data[curYearId].unparticipated) : '0/0') : '0/0' }}</td> 
+                    <td *ngIf="accountType!=='Parks'">{{ row.data ? ((row.data[curYearId]) ? ( row.data[curYearId]._total_verified_distance != 'null' ? ((row.data[curYearId]._total_verified_distance / 1000) | number : '0.1-2') : 0 ) : (0 | number : '0.1-2') ) : 0.0 }}km </td>
+                    <td *ngIf="accountType!=='Parks'">
+                        <i [ngClass]="(row.data && row.data[curYearId]) ? (row.data[curYearId]._tenk_runner ? 'icon-tick' : 'icon-unchecked') : ('icon-unchecked')" matTooltip="10K"></i>&nbsp;
+                        <i [ngClass]="(row.data && row.data[curYearId]) ? (row.data[curYearId]._half_marathon_runner ? 'icon-tick' : 'icon-unchecked') : ('icon-unchecked')" matTooltip="Half Marathon"></i>&nbsp;
+                        <i [ngClass]="(row.data && row.data[curYearId]) ? (row.data[curYearId]._thirtyk_runner ? 'icon-tick' : 'icon-unchecked') : ('icon-unchecked')" matTooltip="30k"></i>&nbsp;
+                        <i [ngClass]="(row.data && row.data[curYearId]) ? (row.data[curYearId]._marathon_runner ? 'icon-tick' : 'icon-unchecked') : ('icon-unchecked')" matTooltip="Marathon"></i>
+                    </td>
+                    <td width="420px" *ngIf="isMainAdmin && accountType=='Parks'" class="app_runner">
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 10 ? 'icon-tick' : 'icon-unchecked'" matTooltip="10 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 20 ? 'icon-tick' : 'icon-unchecked'" matTooltip="Half Marathon"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 30 ? 'icon-tick' : 'icon-unchecked'" matTooltip="30 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 42.2 ? 'icon-tick' : 'icon-unchecked'" matTooltip="1st Marathon 42.2 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 84.4 ? 'icon-tick' : 'icon-unchecked'" matTooltip="2nd Marathon 84.4 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 126.6 ? 'icon-tick' : 'icon-unchecked'" matTooltip="3rd Marathon 126.6 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 168.8 ? 'icon-tick' : 'icon-unchecked'" matTooltip="4th Marathon 168.8 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 211 ? 'icon-tick' : 'icon-unchecked'" matTooltip="5th Marathon 211 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 253.2 ? 'icon-tick' : 'icon-unchecked'" matTooltip="6th Marathon 253.2 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 295.4 ? 'icon-tick' : 'icon-unchecked'" matTooltip="7th Marathon 295.4 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 337.6 ? 'icon-tick' : 'icon-unchecked'" matTooltip="8th Marathon 337.6 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 379.8 ? 'icon-tick' : 'icon-unchecked'" matTooltip="9th Marathon 379.8 Kms"></i>&nbsp;
+                        <i [ngClass]="row._total_unverified_distance/1000 >= 422 ? 'icon-tick' : 'icon-unchecked'" matTooltip="10th Marathon 422 Kms"></i>
+                    </td>
+                    <td *ngIf="accountType!=='Parks'">{{ row.data ? ( row.data[curYearId] ? ( (row.data[curYearId]._total_participation !== null) ? (row.data[curYearId]._total_participation | number : '0.0-0') : 0 ) : ('0') ) : 0 }}%</td>
+					
+                    <td *ngIf="accountType!=='Parks'">{{ (row._total_unverified_distance/1000 | number : '0.1-2') }}km</td>
+					
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row.firstrunsession && (row.firstrunsession!="1970-01-01") ? (row.firstrunsession| date:'dd-MM-yyyy') : '-') }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_monthly_attendance ? row._total_monthly_attendance : '0') }}%</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_fortnightly_attendance ? row._total_fortnightly_attendance : '0') }}%</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_weekly_attendance ? row._total_weekly_attendance : '0') }}%</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._events_name ? row._events_name : '-') }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.countyInfo.name ? row.countyInfo.name : '-' }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.townsInfo.name ? row.townsInfo.name : '-' }}</td>
+                    <td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_unverified_distance/1000) | number : '0.1-2' }}km</td>
+                    <td *ngIf="accountType!=='Parks'">{{ row.data ? ( row.data[curYearId] ? (( row.data[curYearId]._total_verified_distance + row._total_unverified_distance )/1000 | number : '0.1-2') : 0.0 ) : 0.0  }}km</td>
+                    <td class="action-col" *ngIf="accountType!=='Parks'">
+                        <div>
+                            <mat-icon aria-label="Edit User" [inline]="true" class="btn-action" (click)="onEdit(row, 0)">directions_run</mat-icon>
+                            <span class="icon-edit btn-action" (click)="onEdit(row, 1)"></span>
+                            <span class="icon-input-email btn-action" (click)="onEdit(row, 2)" matTooltip="Send Email"></span>
+                            <span class="icon-certificate btn-action" (click)="onEdit(row, 3)" matTooltip="Certificates"></span>
+                            <span class="icon-delete btn-action" (click)="onDelete(row._id)"></span>
+                        </div>
+                    </td>
+					<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.schoolData.school_name ? row.schoolData.school_name : 'Not A Schools Runner' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" (page)="handlePage($event)" #paginator></app-paginator>
+	
+</div>

@@ -1,0 +1,22 @@
+.app-paginator-wrapper {
+    width: 100%;
+    min-height: 50px;
+    background: #202a34;
+    border-radius: 5px;
+    border: 1px solid #37424c;
+    font-size: 1.6rem;
+    padding: 0 8px;
+
+    .paginator-action {
+        button {
+            min-width: 30px;
+            padding: 0;
+
+            &:disabled {
+                mat-icon {
+                    color: grey;
+                }
+            }
+        }
+    }
+}

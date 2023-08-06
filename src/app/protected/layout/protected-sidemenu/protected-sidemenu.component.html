@@ -1,0 +1,149 @@
+<!-- Main Admin Menu -->
+<ng-container class="admin-side menu" *ngIf="authService.isMainAdmin()">
+  <div class="menu-group">
+    <ul class="ul-menu">
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/summary"
+          (click)="onGoUrl($event, '/dashboard/summary')">Summary</a>
+      </li>
+      <li class="li-menu-item"  *ngIf="accountType=='Schools'">
+        <a routerLinkActive="active" routerLink="/dashboard/event"
+          (click)="onGoUrl($event, '/dashboard/event')">Events</a>
+      </li>
+      <li class="li-menu-item"  *ngIf="accountType=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/parkEvent"
+          (click)="onGoUrl($event, '/dashboard/parkEvent')">Park Events</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/parent"
+          (click)="onGoUrl($event, '/dashboard/parent')">Parents</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/leaderboard"
+          (click)="onGoUrl($event, '/dashboard/leaderboard')">Leaderboard</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType=='Schools'">
+        <a routerLinkActive="active" routerLink="/dashboard/support"
+          (click)="onGoUrl($event, '/dashboard/support')">Support Tools</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/runner"
+          (click)="onGoUrl($event, '/dashboard/runner')">Runners</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/notifications"
+          (click)="onGoUrl($event, '/dashboard/notifications')">Notifications</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="menu-group">
+    <ul class="ul-menu">
+      <li class="li-menu-item" *ngIf="accountType=='Parks'">
+        <a (click)="showData('Schools')">SCHOOLS PROGRAMME</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType!=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/school"
+          (click)="onGoUrl($event, '/dashboard/school')">Schools</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/county"
+          (click)="onGoUrl($event, '/dashboard/county')">Counties</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/town" (click)="onGoUrl($event, '/dashboard/town')">Towns</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType!=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/course"
+          (click)="onGoUrl($event, '/dashboard/course')">Courses</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType!=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/audit"
+          (click)="onGoUrl($event, '/dashboard/audit')">Login History</a>
+      </li>
+      <li class="li-menu-item" *ngIf="accountType!=='Parks'">
+        <a routerLinkActive="active" routerLink="/dashboard/year" (click)="onGoUrl($event, '/dashboard/year')">Years</a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<!-- Main Admin Menu -->
+
+<!-- Account Admin, Admin -->
+<ng-container class="admin-side menu" *ngIf="!authService.isMainAdmin()">
+  <div class="menu-group">
+    <ul class="ul-menu">
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/summary"
+          (click)="onGoUrl($event, '/dashboard/summary')">Summary</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/run" (click)="onGoUrl($event, '/dashboard/run')">Runs</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/runner"
+          (click)="onGoUrl($event, '/dashboard/runner')">Runners</a>
+      </li>
+      <li class="li-menu-item">
+		<a routerLinkActive="active" routerLink="/dashboard/notifications" 
+			(click)="onGoUrl($event, '/dashboard/notifications')" >Notifications</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/certificate"
+          (click)="onGoUrl($event, '/dashboard/certificate')">Certificates</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/leaderboard"
+          (click)="onGoUrl($event, '/dashboard/leaderboard')">Leaderboard</a>
+      </li>
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/support"
+          (click)="onGoUrl($event, '/dashboard/support')">Support Tools</a>
+      </li>
+    </ul>
+  </div>
+
+  <ng-container *ngIf="authService.isAccountAdmin() || authService.isAdmin()">
+    <div class="menu-group">
+      <ul class="ul-menu">
+        <li class="li-menu-item">
+          <a routerLinkActive="active" routerLink="/dashboard/forms"
+            (click)="onGoUrl($event, '/dashboard/forms')">Forms</a>
+        </li>
+        <li class="li-menu-item">
+          <a routerLinkActive="active" routerLink="/dashboard/course"
+            (click)="onGoUrl($event, '/dashboard/course')">Courses</a>
+        </li>
+        <ng-container *ngIf="authService.isAccountAdmin()">
+          <li class="li-menu-item">
+            <a routerLinkActive="active" routerLink="/dashboard/audit"
+              (click)="onGoUrl($event, '/dashboard/audit')">Login History</a>
+          </li>
+        </ng-container>
+        <li class="li-menu-item">
+          <a href="#" (click)="onAutoScan($event)" >Automated Runs Scanning</a>
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+</ng-container>
+<!-- Account Admin, Admin -->
+
+<div class="menu-group">
+  <ul class="ul-menu">
+    <ng-container *ngIf="authService.isAccountAdmin() || authService.isMainAdmin()">
+      <li class="li-menu-item">
+        <a routerLinkActive="active" routerLink="/dashboard/user" (click)="onGoUrl($event, '/dashboard/user')">Users</a>
+      </li>
+      <li class="li-menu-item">
+        <a href="#" (click)="onSetting($event)">Settings</a>
+      </li>
+      <li class="li-menu-item">
+        <a href="#" (click)="onProfile($event)">{{ curUser.name }}</a>
+      </li>
+    </ng-container>
+    <li class="li-menu-item">
+      <a routerLinkActive="active" routerLink="/dashboard/audit" (click)="onLogOut($event)">Logout</a>
+    </li>
+  </ul>
+</div>

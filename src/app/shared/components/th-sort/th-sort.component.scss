@@ -1,0 +1,17 @@
+.th-sort {
+    width: 100%;
+    cursor: pointer;
+    color: #f6fcff;
+
+    .th-sort-icon {
+        vertical-align: middle;
+        font-size: 1.6rem;
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+}
+
+.sort-none {
+    display: inline-block;
+    width: 1.6rem;
+}

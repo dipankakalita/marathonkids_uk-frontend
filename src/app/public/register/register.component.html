@@ -1,0 +1,79 @@
+<div class="register-page-wrapper public-page-wrapper">
+    <app-loading [condition]="loading"></app-loading>
+    <!-- register area -->
+    <div class="register-area">
+        <div class="register-content">
+            <h1 class="register-title h--epic color-text-grey text-center">{{ stepTitles[curStep - 1] }}</h1>
+
+            <div class="register-progress-wrapper" *ngIf="curStep < 5">
+                <div *ngIf="curStep == 1">
+                    <div class="register-progress-bar">
+                        <div class="register-progress-bar-item step-detail"></div>
+                    </div>
+                    <span class="register-progress-label step-detail">Details</span>
+                </div>
+                <div *ngIf="curStep == 2">
+                    <div class="register-progress-bar">
+                        <div class="register-progress-bar-item step-dts"></div>
+                    </div>
+                    <span class="register-progress-label step-dts">Admin/DTS</span>
+                </div>
+                <div *ngIf="curStep == 3">
+                    <div class="register-progress-bar">
+                        <div class="register-progress-bar-item step-package"></div>
+                    </div>
+                    <span class="register-progress-label step-package">Choose Your package</span>
+                </div>
+                <div *ngIf="curStep == 4">
+                    <div class="register-progress-bar">
+                        <div class="register-progress-bar-item step-phone"></div>
+                    </div>
+                    <span class="register-progress-label step-phone">Phone Call</span>
+                </div>
+            </div>
+
+            <div class="register-form-area">
+                <div class="form">
+                    <app-alert></app-alert>
+                    <!-- step 1 -->
+                    <app-reg-step1 *ngIf="curStep == 1" 
+                        [form]="formStep1"
+                        [counties]="counties"
+                        [towns]="towns"
+                        (NavigateStep)="navigateStep($event)"></app-reg-step1>
+                    <!--./ step 1 -->
+
+                    <!-- step 2 -->
+                    <app-reg-step2 *ngIf="curStep == 2"
+                        [form]="formStep2"
+                        (NavigateStep)="navigateStep($event)"></app-reg-step2>
+                    <!--./ step 2 -->
+
+                    <!-- step 3 -->
+                    <app-reg-step3 *ngIf="curStep == 3"
+                        [form]="formStep3"
+                        (NavigateStep)="navigateStep($event)"></app-reg-step3>
+                    <!--./ step 3 -->
+
+                    <!-- step 4 -->
+                    <app-reg-step4 *ngIf="curStep == 4"
+                        [form]="formStep4"
+                        (NavigateStep)="navigateStep($event)"></app-reg-step4>
+                    <!--./ step 4 -->
+
+                    <!-- step 5 -->
+                    <div *ngIf="curStep == 5" class="text-center">
+                        <p>
+                            <strong>Thank you for registering for Marathon Kids UK</strong><br />
+                            Now go to your inbox and please verify your email.<br />
+                            (Please check spam folder if not available).
+                        </p>
+                        <p>Your DTS account will be activated within five working days.</p>
+                    </div>
+                    <!--./ step 5  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--./ register area -->
+</div>

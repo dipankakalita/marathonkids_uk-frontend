@@ -1,0 +1,250 @@
+.school-program a{
+	color:#F6FCFF !important;
+	cursor: pointer !important;
+}
+.school-program{
+	border: 1px solid #F6FCFF;
+	font-size: 18px;
+	padding: 3px;
+}
+.parks-program{
+	font-weight: 900;
+}
+.account-select{
+vertical-align: text-bottom;
+	@media (max-width: 959px) {
+            text-align:center;
+            }
+	
+}
+.welcome-label{
+	font-weight : 200;
+	padding-left: 30px;
+	@media (max-width: 650px) {
+		 padding-left: 0px; 
+		 padding-top:30px;
+	}
+}
+.font-image{
+	vertical-align: middle;
+	width:200px;
+}
+.dashboard-header {
+  position: relative;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding: 20px 20px 0;
+
+  background-image: url("/assets/images/header-bg.jpg");
+  background-position: 50% !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+
+  border-color: #37424c;
+
+  &:before,
+  &:after {
+    z-index: 1;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  &:before {
+    background: linear-gradient(
+      180deg,
+      rgba(28, 38, 47, 0.8) 0,
+      rgba(28, 38, 47, 0.2) 30%,
+      rgba(28, 38, 47, 0.6) 70%,
+      #1c262f
+    ) !important;
+  }
+
+  &:after {
+    background: linear-gradient(
+      90deg,
+      #1c262f 10%,
+      rgba(28, 38, 47, 0)
+    ) !important;
+  }
+
+  .top-nav {
+    display: none;
+		
+								 
+						   
+		 
+
+    @media (min-width: 50em) {
+      display: block;
+    }
+
+    position: relative;
+    z-index: 3;
+    transform: translateZ(0);
+
+    ul {
+      font-size: 1.4rem;
+									  
+								 
+
+      li {
+        margin: 0 5px;
+        display: inline-block;
+        text-align: left;
+
+        a {
+          padding: 0 5px;
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+					 
+
+          &.active {
+            padding: 0 5px;
+            text-decoration: underline;
+          }
+
+          &:not(.active) {
+            color: #78828d;
+					 
+          }
+
+          &:hover {
+            color: #f6fcff;
+          }
+        }
+      }
+    }
+
+    .right-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      ul li a {
+        color: #f6fcff;
+
+        &:hover {
+          text-decoration: underline;
+				 
+			 
+        }
+      }
+    }
+  }
+
+  .account-select {
+    @media (min-width: 50em) {
+      margin-top: 40px;
+    }
+				  
+    position: relative;
+    margin: 40px 10px;
+    z-index: 6;
+			
+    .account-select-avatar,
+    .account-name {
+      vertical-align: middle;
+      display: inline-block;
+	  text-align:center;
+    }
+
+    .account-select-avatar {
+      background-color: transparent !important;
+      background-image: url("/assets/images/logo.png") !important;
+							  
+									   
+								 
+
+      width: 80px;
+      height: 80px;
+      margin-right: 20px;
+
+      overflow: hidden;
+      border-radius: 5px;
+      background-position: 50%;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .main-menu {
+    @media (min-width: 50em) {
+      display: block;
+    }
+
+    display: none;
+    position: relative;
+    bottom: -1px;
+    z-index: 3;
+    transform: translateZ(0);
+
+    li {
+      display: inline-block;
+
+      a {
+        color: #78828d;
+        display: block;
+        margin: 0 3px;
+        padding: 5px 10px 19px;
+        border-radius: 0;
+
+        &:hover,
+        &.active {
+          color: #f6fcff;
+        }
+
+        &.active {
+          border-bottom: 1px solid #4286ff;
+        }
+      }
+    }
+  }
+
+  .header-notice-section {
+    border: 1px solid gray;
+    text-align: center;
+    margin: -15px 0px 0px 0px;
+    position: relative;
+    width: 50%;
+    float: right;
+  }
+
+  #x {
+    position: absolute;
+    background: #4286ff;
+    color: white;
+    top: -10px;
+    right: -10px;
+    border-radius: 25%;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 1060px) {
+    .header-notice-section {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .header-notice-section {
+      display: none;
+    }
+	.font-image{
+		vertical-align: text-bottom;
+		//width:200px;
+		display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		  width: 70%;
+	}
+  }
+  
+}

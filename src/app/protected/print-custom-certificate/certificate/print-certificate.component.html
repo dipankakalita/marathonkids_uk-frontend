@@ -1,0 +1,14 @@
+<app-loading [condition]="loading"></app-loading>
+<ng-container *ngIf="certificates.length > 0; else noCerts">
+    <div *ngFor="let cert of certificates" class="certificate-page-wrapper">
+        <img class="certificate-img" [src]="'assets/images/certificate-bg' + cert?.certNum + '.png'">
+
+        <div class="certificate-name">{{ cert.runner_name }}</div>
+        <div class="certificate-achievement">{{ cert.distance }}</div>
+        <div class="certificate-date">{{ cert.date | date:'dd/MM/yyyy' }}</div>
+    </div>
+</ng-container>
+
+<ng-template #noCerts>
+    <h1>No milestones achieved yet</h1>
+</ng-template>

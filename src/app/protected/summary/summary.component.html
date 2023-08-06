@@ -1,0 +1,446 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="optionsFull">
+    <div class="dashboard-options" fxLayout="row wrap" fxLayoutGap="30px" fxLayout.lt-md="column">
+        <!-- year filter -->
+        <mat-form-field class="filter-fields">
+            <mat-select [(ngModel)]="search._academic_year_id" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option *ngFor="let year of years" [value]="year.value">{{ year.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ year filter -->
+		
+        <!-- county filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin">
+            <mat-select [(ngModel)]="search._county_id" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No counties found.'"
+                        [formControl]="countyFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let county of filteredCounties | async" [value]="county.value">{{ county.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ county filter -->
+
+        <!-- school filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin && accountType=='Schools'">
+            <mat-select [(ngModel)]="search._account_id" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No schools found.'"
+                        [formControl]="schoolFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+            
+                <mat-option *ngFor="let school of filteredSchools | async" [value]="school.value">{{ school.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ school filter -->
+
+        <!-- parks filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin && accountType=='Parks'">
+            <mat-select [(ngModel)]="search._course_id" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No parks found.'"
+                        [formControl]="parkFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+            
+                <mat-option *ngFor="let park of filteredParks | async" [value]="park.value">{{ park.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ parks filter -->
+
+        <!-- Ethnicity filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin && accountType=='Parks'">
+            <mat-select [(ngModel)]="search.ethnicity" disableOptionCentering (selectionChange)="searchDatas()" >
+                <mat-option>
+                    <ngx-mat-select-search [noEntriesFoundLabel]="'No ethnicity found.'"
+                        [formControl]="ethnicityFilterCtrl" [placeholderLabel]="'Search...'">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let ethnicty of filteredEthnicity | async" [value]="ethnicty.value">{{ ethnicty.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ Ethnicity filter -->
+
+        <!-- year group filter -->
+        <mat-form-field class="filter-fields" *ngIf="accountType!='Parks'">
+            <mat-select [(ngModel)]="search.year_group" disableOptionCentering (selectionChange)="searchDatas()">      
+				<mat-option [value]="'ALLOW ALL'" >All Year Groups</mat-option>
+                <mat-option *ngFor="let yGroup of yearGroups" [value]="yGroup.value">{{ yGroup.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ year group filter -->
+
+        <!-- genders filter -->
+        <mat-form-field class="filter-fields">
+            <mat-select [(ngModel)]="search.gender" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ genders filter -->
+
+        <!-- school type filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin && accountType=='Schools'">
+            <mat-select [(ngModel)]="search.school_type" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option [value]="'ALLOW ALL'">All School Types</mat-option>
+                <mat-option *ngFor="let schoolType of schoolTypes" [value]="schoolType.value">{{ schoolType.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ school type filter -->
+
+        <!-- data type filter -->
+        <mat-form-field class="filter-fields" *ngIf="isMainAdmin && accountType=='Schools'">
+            <mat-select [(ngModel)]="search.data_type" disableOptionCentering (selectionChange)="searchDatas()">
+                <mat-option [value]="'ALLOW ALL'">All Data</mat-option>
+                <mat-option [value]="true">School Data Only</mat-option>
+                <mat-option [value]="false">App Data Only</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--./ data type filter -->
+		
+        <!-- Start Date -->
+        <mat-form-field *ngIf="isMainAdmin && accountType=='Parks'">
+            <input matInput [matDatepicker]="start_date" placeholder="From Date" (click)="start_date.open()" (dateChange)="filterFrom($event)"  readonly>
+            <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+            <mat-datepicker #start_date></mat-datepicker>
+        </mat-form-field>
+        <!--./ Start Date -->
+        <!-- End Date -->
+        <mat-form-field *ngIf="isMainAdmin && accountType=='Parks'">
+            <input matInput [matDatepicker]="end_date" placeholder="To Date" (click)="end_date.open()" (dateChange)="filterTo($event)" readonly>
+            <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+            <mat-datepicker #end_date></mat-datepicker>
+        </mat-form-field>
+        <!--./ End Date -->
+		
+    </div>
+</div>
+
+<div class="main">
+    <div class="dashboard-container">
+        <div class="dashboard-container-row" fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column">
+            <!-- total runner -->
+            <div class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingTR) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">Total Runners</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingTR) ? 'load-hide' : ''">
+                            <span class="card-stat-content">{{totalRunners}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ total runner -->
+
+            <!-- total active runner -->
+            <div *ngIf="accountType!='Parks'" class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingATR) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">Total Active Runners</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingATR) ? 'load-hide' : ''">
+                            <span class="card-stat-content">{{totalActRunners}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ total active runner -->
+
+            <!-- total feedback -->
+            <div *ngIf="isMainAdmin && accountType=='Parks'" class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingATR) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">Feedback</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingATR) ? 'load-hide' : ''">
+                            <img src="/assets/images/five_star.png" width="30px"/> <span class="card-stat-content">{{totalFeedback.five_star_ratings }}</span> &nbsp; 
+                            <img src="/assets/images/four_star.png" width="30px"/> <span class="card-stat-content">{{totalFeedback.four_star_ratings }}</span> &nbsp; 
+                            <img src="/assets/images/three_star.png" width="30px"/> <span class="card-stat-content">{{ totalFeedback.three_star_ratings }}</span> &nbsp; 
+                            <img src="/assets/images/two_star.png" width="30px"/> <span class="card-stat-content">{{totalFeedback.two_star_ratings}}</span> &nbsp; 
+                            <img src="/assets/images/one_star.png" width="30px"/> <span class="card-stat-content">{{totalFeedback.one_star_ratings}}</span> &nbsp; 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ total feedback -->
+
+            <!-- total distance -->
+            <div class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingTD) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">Total Distance</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingTD) ? 'load-hide' : ''">
+                            <span class="card-stat-content">{{totalDistance}}</span><span class="t--small">km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ total distance -->
+
+            <!-- attendance -->
+            <div *ngIf="accountType!='Parks'" class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingATT) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">Attendance</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingATT) ? 'load-hide' : ''">
+                            <span class="card-stat-content">{{attendance}}</span><span class="t--small">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ attendance -->
+			
+            <!-- No of Volunteers -->
+            <div *ngIf="isMainAdmin && accountType=='Parks'" class="dashboard-card" fxFlex="25%">
+                <div class="card card-stat" [ngClass]="(loadingATT) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <div class="card-header">
+                            <strong class="card-title">No of Volunteers</strong>
+                        </div>
+                        <div class="card-body-stat" [ngClass]="(loadingATT) ? 'load-hide' : ''">
+                            <span class="card-stat-content">{{totalVolunteers}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--./ No of Volunteers -->
+        </div>
+
+        <div class="dashboard-container-row" fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column">
+            <div fxFlex="50%">
+                <div class="card card-stat" [ngClass]="(loadingKYG || loadingKF) ? 'card-loading' : 'card-loaded'">
+                    <div class="card-spinner"></div>
+                    <div class="card-wrapper">
+                        <mat-tab-group mat-align-tabs="center">
+                            <mat-tab label="Kilometres By Year Group">
+                                <div class="card-body-stat" [ngClass]="(loadingKYG) ? 'load-hide' : ''">
+                                    <div class="first-tab-content"></div>
+                                    <div *ngIf="!loadingKYG" class="kyg-container" style="position: relative; height:auto; width:auto">
+                                        <canvas #kygChart id="kygChart"></canvas>
+                                    </div>
+                                </div>
+                            </mat-tab>
+
+                            <mat-tab *ngIf="accountType!='Parks'" label="Kilometres By Reg Group">
+                                <div class="card-body-stat" [ngClass]="(loadingKF) ? 'load-hide' : ''">
+                                    <div class="second-tab-content"></div>
+                                    <div *ngIf="!loadingKF" class="kf-container" style="position: relative; height:auto; width:auto">
+                                        <canvas #kfChart id="kfChart"></canvas>
+                                    </div>
+                                </div>
+                            </mat-tab>
+
+                            <mat-tab *ngIf="isMainAdmin && accountType=='Parks'" label="Monthly Attendance">
+                                <div class="card-body-stat" [ngClass]="(loadingMA) ? 'load-hide' : ''">
+                                    <div class="second-tab-content"></div>
+                                    <div *ngIf="!loadingMA" class="ma-container" style="position: relative; height:auto; width:auto">
+                                        <canvas #maChart id="maChart"></canvas>
+                                    </div>
+                                </div>
+                            </mat-tab>
+
+                        </mat-tab-group>                        
+                    </div>
+                </div>
+            </div>
+
+            <div fxFlex="50%">
+                <div fxLayout="column" fxLayoutGap="20px">
+                    <div fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column">
+                        <div fxFlex="50%">
+                            <div class="card card-stat" [ngClass]="(loadingARD) ? 'card-loading' : 'card-loaded'">
+                                <div class="card-spinner"></div>
+                                <div class="card-wrapper">
+                                    <div class="card-header">
+                                        <strong class="card-title">Average Per Runner</strong>
+                                    </div>
+                                    <div class="card-body-stat" [ngClass]="(loadingARD) ? 'load-hide' : ''">
+                                        <span class="card-stat-content">{{avgRDistance}}</span><span class="t--small">km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div fxFlex="50%">
+                            <div class="card card-stat" [ngClass]="(loadingARD) ? 'card-loading' : 'card-loaded'">
+                                <div class="card-spinner"></div>
+                                <div class="card-wrapper">
+                                    <div class="card-header">
+                                        <strong class="card-title">Average Per Run</strong>
+                                    </div>
+                                    <div class="card-body-stat" [ngClass]="(loadingARD) ? 'load-hide' : ''">
+                                        <span class="card-stat-content">{{avgSDistance}}</span><span
+                                            class="t--small">km</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="accountType!='Parks'">
+                        <div class="card card-stat" [ngClass]="(loadingMIL) ? 'card-loading' : 'card-loaded'">
+                            <div class="card-spinner"></div>
+                            <div class="card-wrapper">
+                                <div class="card-header">
+                                    <strong class="card-title">Milestones</strong>
+                                </div>
+                                <div class="card-body-stat" [ngClass]="(loadingMIL) ? 'load-hide' : ''">
+                                    <div fxLayout="row" fxLayoutAlign="space-evenly">
+                                        <div>
+                                            <span class="card-stat-content">{{milestones.tenkPC}}</span><span
+                                                class="t--small">%</span>
+                                            <div class="card-stat-label">10k</div>
+                                            <div class="card-stat-sub t--small">{{milestones.tenk}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{milestones.halfPC}}</span><span
+                                                class="t--small">%</span>
+                                            <div class="card-stat-label">Half Marathon</div>
+                                            <div class="card-stat-sub t--small">{{milestones.half}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{milestones.thirtykPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">30k</div>
+                                            <div class="card-stat-sub t--small">{{milestones.thirtyk}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body-stat body-last" [ngClass]="(loadingMIL) ? 'load-hide' : ''">
+                                    <div fxLayout="row" fxLayoutGap="20px" style="padding: 10px">
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{milestones.marathonPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon One</div>
+                                            <div class="card-stat-sub t--small">{{milestones.marathon}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{milestones.marathonTwoPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Two</div>
+                                            <div class="card-stat-sub t--small">{{milestones.marathonTwo}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{milestones.marathonThreePC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Three</div>
+                                            <div class="card-stat-sub t--small">{{milestones.marathonThree}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content" >{{milestones.marathonFourPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Four</div>
+                                            <div class="card-stat-sub t--small">{{milestones.marathonFour}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div *ngIf="isMainAdmin && accountType=='Parks'">
+                        <div class="card card-stat" [ngClass]="(loadingMIL) ? 'card-loading' : 'card-loaded'">
+                            <div class="card-spinner"></div>
+                            <div class="card-wrapper">
+                                <div class="card-header">
+                                    <strong class="card-title">Milestones</strong>
+                                </div>
+                                <div class="card-body-stat" [ngClass]="(loadingMIL) ? 'load-hide' : ''">
+                                    <div fxLayout="row" fxLayoutAlign="space-evenly">
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.tenkPC > 100 ? '100' :appmilestones.tenkPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">10k</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.tenk}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.halfPC > 100 ? '100' :appmilestones.halfPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Half Marathon</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.half}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.thirtykPC > 100 ? '100' : appmilestones.thirtykPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">30k</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.thirtyk}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.marathonPC > 100 ? '100' :appmilestones.marathonPC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon One</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathon}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.marathonTwoPC > 100 ? '100' :appmilestones.marathonTwoPC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Two</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonTwo}}</div>
+                                        </div>
+                                        <div>
+                                            <span class="card-stat-content">{{appmilestones.marathonThreePC > 100 ? '100' :appmilestones.marathonThreePC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Three</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonThree}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body-stat body-last" [ngClass]="(loadingMIL) ? 'load-hide' : ''">
+                                    <div fxLayout="row" fxLayoutGap="20px" style="padding: 10px">
+                                        <div fxFlex>
+                                            <span class="card-stat-content" >{{appmilestones.marathonFourPC > 100 ? '100' :appmilestones.marathonFourPC}}</span><span
+                                                class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Four</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonFour}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content" >{{appmilestones.marathonFivePC > 100 ? '100' :appmilestones.marathonFivePC}}</span><span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Five</div>
+                                            <div class="card-stat-sub t--small" >{{appmilestones.marathonFive}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{ appmilestones.marathonSixPC > 100 ? '100' :appmilestones.marathonSixPC }}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Six</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonSix}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{appmilestones.marathonSevenPC > 100 ? '100' :appmilestones.marathonSevenPC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Seven</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonSeven}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{appmilestones.marathonEightPC > 100 ? '100' :appmilestones.marathonEightPC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Eight</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonEight}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{appmilestones.marathonNinePC > 100 ? '100' :appmilestones.marathonNinePC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Nine</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonNine}}</div>
+                                        </div>
+                                        <div fxFlex>
+                                            <span class="card-stat-content">{{appmilestones.marathonTenPC > 100 ? '100' :appmilestones.marathonTenPC}}</span>
+											<span class="t--small">%</span>
+                                            <div class="card-stat-label">Marathon Ten</div>
+                                            <div class="card-stat-sub t--small">{{appmilestones.marathonTen}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

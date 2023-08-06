@@ -1,0 +1,61 @@
+# Node Image for docker on which code will execute
+image: node:latest
+
+# This is the stages / task to perfom in jobs
+stages:
+  - build
+  - deploy_test
+  - deploy_prod
+  
+# caching for reuse
+# cache:
+#   key: ${CI_COMMIT_REF_SLUG}
+#   paths:
+#   - node_modules/
+#   - dist/
+  
+# This command is run before the execution of stages    
+before_script:
+  # Setup SSH deploy keys
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+# Job One for making build
+build:
+  stage: build
+  script:
+  - npm install
+  - npm install -g @angular/cli
+  - if [ $CI_COMMIT_REF_NAME == "frontend_test" ]; then cp src/app/config.test.ts src/app/config.ts ; else cp src/app/config.prod.ts src/app/config.ts; fi
+  - cat src/app/config.ts
+  - ng build --prod
+  artifacts:
+    when: on_success
+    untracked: false
+    expire_in: 1 days
+    paths:
+      - dist/
+
+
+# Job to deploy to test
+deploy_test:  
+  stage: deploy_test
+  script:
+    - tar zcf /tmp/code.tar.gz -C dist/kidsrunfree/ .
+    - scp -P 17177 -r /tmp/code.tar.gz kidsrunf@139.162.237.214:deploy/frontend/test/
+    - ssh kidsrunf@139.162.237.214 -p 17177 "tar xfz deploy/frontend/test/code.tar.gz -C /home/kidsrunf/testdts.marathonkids.co.uk && exit"
+  only: ['frontend_test']
+
+# Job to deploy to prod
+deploy_prod:
+  stage: deploy_prod
+  script:
+    - tar zcf /tmp/code.tar.gz -C dist/kidsrunfree/ .
+    - scp -P 17177 -r /tmp/code.tar.gz kidsrunf@139.162.237.214:deploy/frontend/prod/
+    - ssh kidsrunf@139.162.237.214 -p 17177 "tar xfz deploy/frontend/prod/code.tar.gz -C /home/kidsrunf/dts.marathonkids.co.uk && exit"
+  when: manual
+  only: ['frontend']
+  allow_failure: false

@@ -1,0 +1,51 @@
+body {
+    background-color: #fff;
+}
+
+.certificate-img {
+    width: 210mm;
+    height: 297mm;
+}
+
+h1 {
+    color: #000;
+    text-align: center;
+}
+
+.certificate-page-wrapper {
+    position: relative;
+    height: 1155px;
+    margin-bottom: 5px;
+    
+    * {
+        color: #000;
+        position: absolute;
+        text-align: center;
+    }
+    
+    .certificate-name {
+        position: absolute;
+        width: 130mm;
+        top: 135mm;
+        left: 40mm;
+        font-size: 3.6rem;
+        font-weight: 700;
+    }
+
+    .certificate-achievement {
+        width: 56mm;
+        top: 177mm;
+        left: 43mm;
+        font-size: 2.4rem;
+        font-weight: 700;
+    }
+    
+    .certificate-date {
+        position: absolute;
+        width: 56mm;
+        top: 177mm;
+        left: 112mm;
+        font-size: 2.4rem;
+        font-weight: 700;
+    }
+}

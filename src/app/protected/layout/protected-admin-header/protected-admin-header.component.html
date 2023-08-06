@@ -1,0 +1,103 @@
+<div>
+  <div class="dashboard-header dashboard-header-shine">
+    <!-- top nav menu -->
+    <div class="top-nav">
+      <!-- left menu -->
+      <div class="left-menu">
+        <ul class="ul-menu">
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/school" *ngIf="accountType=='Schools'">Schools</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/county">Counties</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/town">Towns</a>
+          </li>
+          <li class="school-program" *ngIf="isMainAdmin && accountType=='Parks'">
+            <a (click)="showData('Schools')" *ngIf="accountType=='Parks'">SCHOOLS PROGRAMME</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/course" *ngIf="accountType=='Schools'">Courses</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/audit" *ngIf="accountType=='Schools'">Login History</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/year" *ngIf="accountType=='Schools'">Years</a>
+          </li>
+          <li class="school-program" *ngIf="isMainAdmin && accountType=='Schools'">
+            <a (click)="showData('Parks')">PARKS PROGRAMME</a>
+          </li>
+        </ul>
+      </div>
+      <!--./ left menu -->
+
+      <!-- right menu -->
+      <div class="right-menu">
+        <ul class="ul-menu">
+          <li>
+            <a routerLinkActive="active" routerLink="/dashboard/user">Users</a>
+          </li>
+          <li>
+            <a href="#" (click)="onSetting($event)">Settings</a>
+          </li>
+          <li>
+            <a href="#" (click)="onProfile($event)">{{ curUser?.name }}</a>
+          </li>
+          <li>
+            <a href="#" (click)="onLogOut($event)">Logout</a>
+          </li>
+        </ul>
+      </div>
+      <!--./ right menu  -->
+
+    </div>
+    <!--./ top nav menu -->
+
+    <!-- account select -->
+    <div class="account-select">
+      <img src="assets/images/MK_LOGO_WHT.png" class="font-image"/><h1 class="h--epic color-text-blue account-name"><span class="parks-program welcome-label" *ngIf="isMainAdmin && accountType=='Schools'">SCHOOLS PROGRAMME</span><span *ngIf="accountType=='Parks'" class="parks-program welcome-label">PARKS PROGRAMME </span></h1>
+	  
+      <div class="header-notice-section" *ngFor="let row of notices">
+        <button id = "x" (click)="onDelete(row._id)"> X </button>
+        <h3>{{ row.heading }}</h3>
+        <p>{{ row.message }}</p>
+      </div>
+    </div>
+    <!-- account select -->
+
+    <!-- main menu -->
+    <div class="main-menu">
+      <ul class="ul-menu">
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/summary">Summary</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/event" *ngIf="accountType=='Schools'">Events</a>
+        </li>
+		<li>
+          <a routerLinkActive="active" *ngIf="accountType=='Parks'" routerLink="/dashboard/parkEvent">Park Events</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/parent">Parents</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/leaderboard">Leaderboard</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/support" *ngIf="accountType=='Schools'">Support Tools</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/runner" *ngIf="accountType=='Parks'">Runners</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/dashboard/notifications">Notifications</a>
+        </li>
+      </ul>
+    </div>
+    <!--./ main menu -->
+
+  </div>
+ 
+</div>

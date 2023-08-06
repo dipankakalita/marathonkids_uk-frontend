@@ -1,0 +1,45 @@
+body {
+    background-color: #fff;
+}
+
+.certificate-page-wrapper {
+    position: relative;
+
+    * {
+        color: #000 !important;
+        page-break-after: avoid;
+    }
+}
+
+.qr-runner-pairing-wrapper {
+    display: inline-block;
+    width: 50%;
+    height: 500px;
+    padding: 20px;
+    text-align: center;
+    vertical-align: top;
+    border-right: 2px dashed #78828d;
+    border-bottom: 2px dashed #78828d;
+
+    .qr-runner-pairing-title, .qr-runner-pairing-name {
+        width: 100%;
+        word-break: break-all;
+        font-size: 2rem;
+    }
+
+    .qr-runner-pairing-desc {
+        width: 100%;
+        word-break: normal;
+        font-size: 1.6rem;
+    }
+
+    .qr-runner-pairing-qr {
+        img {
+            margin: 0 auto;
+        }
+    }
+}
+
+.qr-runner-pairing-wrapper:nth-child(2n) {
+    border-right: 0 none;
+}

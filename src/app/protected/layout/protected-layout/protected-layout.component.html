@@ -1,0 +1,17 @@
+<div>
+    <mat-drawer-container class="example-container" [hasBackdrop]="true">
+        <mat-drawer #drawer [mode]="'over'">
+            <app-protected-sidemenu [sideMenu]="drawer"></app-protected-sidemenu>
+        </mat-drawer>
+        <mat-drawer-content>
+            <mat-icon class="btn-toggle-menu btn-action" (click)="onToggleMenu()">menu</mat-icon>
+            <app-protected-header *ngIf="!authService.isMainAdmin()"></app-protected-header>
+            <app-protected-admin-header *ngIf="authService.isMainAdmin()"></app-protected-admin-header>
+            <div class="main-content">
+                <router-outlet *ngIf="!newYearRegistering || isMainAdmin"></router-outlet>
+            </div>
+            <app-protected-footer></app-protected-footer>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>
+

@@ -1,0 +1,137 @@
+<app-loading [condition]="loading"></app-loading>
+<div *ngIf="formType == formTypes.EDIT" class="dialog-header text-center">
+    <p style="margin-top: 7px">{{ sourceData?.data?.name }}</p>
+</div>
+<mat-tab-group [(selectedIndex)]="selectedTab">
+    <mat-tab label="Session" *ngIf="formType == formTypes.EDIT">
+        <div class="dialog-body">
+            <!--<h4>PARTICIPATED - {{ sourceData?.data._participated }} / {{ sourceData?.data._participated + sourceData?.data._unparticipated }}</h4>-->
+			<h4>PARTICIPATED -  {{ sourceData.data ? ((sourceData.data.data[sourceData.currentyear]) ? sourceData.data.data[sourceData.currentyear].participated 
+					+ "/" + (sourceData.data.data[sourceData.currentyear].participated + sourceData.data.data[sourceData.currentyear].unparticipated) : '0/0') : '0/0' }}</h4>
+            <br />
+            <p *ngFor="let session of sessions; let idx=index">{{ idx + 1 }}. &nbsp;&nbsp;&nbsp;{{ (session.distance/1000)  | number : '0.1-1' }} km</p>
+            <br />
+            <!--<h4>TOTAL - {{ (sourceData?.data._total_verified_distance/1000) | number : '0.1-1' }} km</h4>-->
+			<h4>TOTAL - {{ (sourceData?.data?.data[sourceData.currentyear]?._total_verified_distance/1000) | number : '0.1-1' }} km</h4>
+        </div>
+    </mat-tab>
+
+    <mat-tab [label]="dlgTitle">
+        <div class="dialog-body" fxLayout="column" fxLayoutGap="16px">
+            <form [formGroup]="form" #formRunner (ngSubmit)="onSubmitRunner()">
+                <!-- First Name -->
+                <mat-form-field>
+                    <input formControlName="first_name" matInput placeholder="First Name" autocomplete="off" />
+                    <mat-error *ngIf="isInvalid('first_name')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ First Name -->
+
+                <!-- Last Name -->
+                <mat-form-field>
+                    <input formControlName="last_name" matInput placeholder="Last Name" autocomplete="off" />
+                    <mat-error *ngIf="isInvalid('last_name')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ Last Name -->
+
+                <!-- UPN -->
+                <mat-form-field>
+                    <input formControlName="upn" matInput placeholder="UPN" autocomplete="off" />
+                    <mat-error *ngIf="isInvalid('upn')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ UPN -->
+
+                <!-- Parent Email -->
+                <mat-form-field>
+                    <input formControlName="parent_email" matInput placeholder="Parent Email" autocomplete="off" />
+                </mat-form-field>
+                <!--./ Parent Email -->
+
+                <!-- Gender -->
+                <mat-form-field>
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="Male">Male</mat-option>
+                        <mat-option value="Female">Female</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isInvalid('gender')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ Gender -->
+
+                <!-- Year Group -->
+                <mat-form-field>
+                    <mat-label>Year Group</mat-label>
+                    <mat-select formControlName="year_group">
+						<mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.value" > {{ yearGroup.label }} </mat-option> 
+                    </mat-select>
+                    <mat-error *ngIf="isInvalid('year_group')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ Year Group -->
+
+                <!-- Form -->
+                <mat-form-field>
+                    <mat-label>Reg Group</mat-label>
+                    <mat-select formControlName="_form_id">
+                        <mat-option *ngFor="let form of forms" [value]="form._id">{{ form.name }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isInvalid('_form_id')">
+                        Field is required
+                    </mat-error>
+                </mat-form-field>
+                <!--./ Form -->
+            </form>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Email" *ngIf="formType == formTypes.EDIT">
+        <div class="dialog-body">
+            <h4 *ngIf="parentId">{{ this.sourceData?.data?.name }} has been successfully paired with the marathon kids mobile app.</h4>
+            <h4 *ngIf="!parentId">{{ this.sourceData?.data?.name }} has not been paired with the marathon kids mobile app.</h4>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Certificate" *ngIf="formType == formTypes.EDIT">
+        <div class="dialog-body">
+            <!-- Milestone -->
+            <mat-form-field>
+                <mat-select name="milestone" placeholder="Milestone" [(ngModel)]="formCert.milestone"
+                    (selectionChange)="onChangeMS()">
+                    <mat-option value="custom">Custom Value</mat-option>
+                    <mat-option value="current">Current Distance</mat-option>
+                    <mat-option [value]="10">10 km</mat-option>
+                    <mat-option [value]="21">Half Marathon</mat-option>
+                    <mat-option [value]="30">30 km</mat-option>
+                    <mat-option [value]="42">Marathon</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!--./ Milestone -->
+
+            <!-- Distance -->
+            <mat-form-field *ngIf="formCert.milestone == 'custom' || formCert.milestone == 'current'">
+                <input name="distance" [(ngModel)]="formCert.distance" matInput placeholder="Distance" autocomplete="off" />
+            </mat-form-field>
+            <!--./ Distance -->
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<div class="dialog-footer">
+    <div fxLayout="row" fxLayoutGap="20px" class="h-100" fxLayoutAlign="center center">
+        <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button (click)="onCancel()">Cancel</button>
+        <button *ngIf="selectedTab == 1" type="button" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+            (click)="onSubmitRunner()" [disabled]="form.invalid">Save</button>
+        <button *ngIf="selectedTab == 2" type="button" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+            (click)="onSendEmailCode()" [disabled]="form.invalid">Email code to parent</button>
+        <button *ngIf="selectedTab == 3" type="button" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+            (click)="onCertificate()" [disabled]="form.invalid">Print</button>
+    </div>
+</div>

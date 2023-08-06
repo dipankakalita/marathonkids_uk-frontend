@@ -1,0 +1,62 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px" *ngIf="curAccount.school_scanner == true" >
+		<!-- Year Group -->
+		<mat-form-field>
+			<mat-label>Year Group (select one or more)</mat-label>
+			<mat-select formControlName="year_group" multiple>  
+				<mat-option [value]="'ALLOW ALL'" #allSelected (click)="toggleAllSelection()" >All Year Groups</mat-option>
+				<mat-option *ngFor="let yearGroup of yearGroups" [value]="yearGroup.value">{{ yearGroup.label }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="isInvalid('year_group')">
+				Field is required
+			</mat-error>
+		</mat-form-field>
+		<!--./ Year Group -->
+
+        <!-- Forms -->
+        <mat-form-field>
+            <mat-label>Reg Group (select one or more)</mat-label>
+            <mat-select formControlName="forms" multiple>
+                <mat-option *ngFor="let form of forms" [value]="form._id">{{ form.name }}</mat-option>
+            </mat-select>
+            <mat-hint>(Optional)</mat-hint>
+        </mat-form-field>
+        <!--./ Forms -->
+		
+		<mat-hint class="f-14"> Note : The download may take upto few minutes depending on the number of runners. </mat-hint>
+	</div>
+
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px" *ngIf="curAccount.school_scanner == false" >
+		<h2 class="text-center mt-0">You are on the basic package.</h2>
+		<div class="text-left">
+			Upgrade to Premium today for just £1 per child and gain access to your QR Codes for use with the Marathon Kids UK Scanning App, and experience the ease of automated data capture.
+			<ul>
+				You will also receive -
+				<li>Your QR codes printed out, laminated and sent to you</li>
+				<li>Any on boarding that you haven't done as yet, such as uploading your registers, adding users and inputting courses</li> 
+			</ul>
+			Upgrade to Premium today by contacting schools@marathonkids.co.uk with the email title 'Upgrade my Marathon Kids UK Package', or call us on 01926 336628 / 07711 349592
+		</div>
+	</div>
+	
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn mr-1" fxFlexFill mat-raised-button
+                (click)="onCancel()" fxFlex="50" >Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid" *ngIf="curAccount.school_scanner == true" >Download QR PDF</button>
+			<a href="mailto:schools@marathonkids.co.uk" target="_self" class="btn btn--primary" fxFlexFill mat-raised-button 
+				*ngIf="curAccount.school_scanner == false" fxFlex="50" >Email</a>
+            <!--<button type="button" class="btn btn--primary" fxFlexFill mat-raised-button
+                (click)="onUpgrade($event)" fxFlex="50"   >Upgrade</button>-->
+        </div>
+    </div>
+</form>

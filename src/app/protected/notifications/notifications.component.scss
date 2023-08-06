@@ -1,0 +1,173 @@
+.notification-heading {
+  text-align: center;
+  color: #4286ff !important;
+  font-size: 22px;
+}
+
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.66%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+  padding: 0px 15px 0px 15px;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+}
+
+.form {
+  background-color: black;
+  height: 70vh;
+}
+
+.noti_f {
+  color: #022a95;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.text {
+  color: #022a95;
+  font-size: 25px;
+  margin-top: 10%;
+  margin-left: 8%;
+}
+
+.heading form input {
+  margin-left: 10%;
+  margin-top: 3%;
+  border: 1px solid white;
+  width: 90%;
+}
+
+.message {
+  margin-left: 10%;
+  margin-top: 2%;
+  width: 100%;
+}
+
+.btn_submit {
+  width: 150px;
+  height: 35px;
+  margin-left: 77%;
+  background-color: #5eb773;
+  color: white;
+}
+
+.second {
+  margin-top: 3%;
+  //margin-right: 8%;
+}
+
+.second_1 {
+  border: 1px solid gray;
+  border-right: 1px solid gray;
+}
+
+.second_2 {
+  border: 1px solid gray;
+}
+
+.dts {
+  color: #022a95;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 1.25rem;
+}
+
+.btn_edit {
+  width: 60px;
+  background-color: #5eb773;
+  color: white;
+  font-size: 13px;
+}
+
+.btn_delete {
+  width: 70px;
+  background-color: #5eb773;
+  color: white;
+  font-size: 13px;
+}
+
+.pera1 {
+  color: #78828d;
+  text-align: center;
+  margin-top: 2%;
+  text-decoration-line: underline;
+}
+
+.pera2 {
+  color: #78828d;
+}
+
+.pera3 {
+  color: #78828d;
+  text-decoration-line: underline;
+}
+.border-right {
+  //border-right: 1px solid gray !important;
+  text-align: center;
+}
+
+.border-left {
+  border-left: 1px solid gray !important;
+}
+
+.notification-list-section {
+  float: left;
+  overflow-y: auto;
+  height: 500px;
+  width: 100%;
+}
+@media screen and (max-width: 540px) {
+  .notification-list-section {
+    .btn_delete {
+      width: 45px;
+      font-size: 10px;
+    }
+    .btn_edit {
+      width: 45px;
+      font-size: 10px;
+    }
+  }
+}

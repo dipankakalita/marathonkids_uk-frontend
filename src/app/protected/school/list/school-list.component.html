@@ -1,0 +1,91 @@
+<app-loading [condition]="loading || loadingInfo"></app-loading>
+
+<div fxLayout="row" fxLayout.xs="col" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+    <mat-form-field>
+        <mat-select [(ngModel)]="searchForm.school" (selectionChange)="onChangeSchool()">
+            <mat-option [value]="0">All Schools</mat-option>
+            <mat-option [value]="1">Run in the last 12 months</mat-option>
+            <mat-option [value]="2">Not run in the last 12 months</mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+            autocomplete="off" />
+    </mat-form-field>
+</div>
+
+<div>
+    <h1>{{ totalCount }} Schools 
+        <span>(With Runners: {{ schoolsWithRunner }}, Active: {{ schoolsActive }}, Re-registered: {{ schoolsReRegistered }})</span>
+    </h1>
+</div>
+
+<div class="dashboard-action">
+    <!-- <button mat-raised-button color="accent" (click)="onAdd()"><mat-icon>add</mat-icon></button> -->
+</div>
+
+<div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th app-th-sort [colName]="'School'" (sort)="onSort($event, 'school_name')"></th>
+                    <th>Town</th>
+                    <th app-th-sort [colName]="'Runners'" (sort)="onSort($event, 'statistics.number_of_runners')"></th>
+                    <th app-th-sort [colName]="'Last Login'" (sort)="onSort($event, 'last_login')"></th>
+                    <th app-th-sort [colName]="'Last Session Run'" (sort)="onSort($event, 'last_session_run')"></th>
+                    <th app-th-sort [colName]="'Valid For'" (sort)="onSort($event, '_valid_for_date')"></th>
+                    <th app-th-sort [colName]="'Verified'" (sort)="onSort($event, 'email_confirmed')"></th>
+                    <th app-th-sort [colName]="'Active'" (sort)="onSort($event, 'active')"></th>
+                    <th app-th-sort [colName]="'Re-registered'" (sort)="onSort($event, 'reregistered')"></th>
+                    <th>Package</th>
+                    <th>Scanner</th>
+                    <th>Hear From</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let school of schools">
+                    <td>{{ school.school_name }}</td>
+                    <td>{{ school.location?._town_id?.name }}</td>
+                    <td>{{ school.statistics.number_of_runners }}</td>
+                    <td>{{ school.last_login | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ school.last_session_run | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ school._valid_for_date }}</td>
+                    <td>
+                        <span>
+                            <i [ngClass]="school.email_confirmed ? 'icon-tick' : 'icon-unchecked'"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span><i class="email-active" [ngClass]="school.active ? 'icon-tick' : 'icon-unchecked'"
+                            (click)="onSchoolActive(school)"></i></span>
+                    </td>
+                    <td>
+                        <span><i [ngClass]="school.reregistered ? 'icon-tick' : 'icon-unchecked'"></i></span>
+                    </td>
+                    <td>
+                        {{ getPackageName(school.school_package) }}
+                    </td>
+                    <td>
+                        <span><i class="scanner-active" [ngClass]="school.school_scanner ? 'icon-tick' : 'icon-unchecked'"
+                            (click)="onSchoolScannerActive(school)"></i></span>
+                    </td>
+                    <td>
+                        {{ getIntroStr(school.registration) }}
+                    </td>
+                    <td class="action-col">
+                        <div>
+                            <mat-icon aria-label="Edit User" class="btn-action mr-10" (click)="onEdit(school)">edit</mat-icon>
+                            <mat-icon aria-label="Delete User" class="btn-action mr-10" (click)="onUser(school)">people</mat-icon>
+                            <mat-icon aria-label="Delete User" class="btn-action" (click)="onDelete(school._id)">delete</mat-icon>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" [initialPage]="currentPage" (page)="handlePage($event)" #paginator>
+    </app-paginator>
+</div>

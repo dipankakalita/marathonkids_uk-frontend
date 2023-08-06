@@ -1,0 +1,145 @@
+.card {
+    border-radius: 5px;
+    transition: none;
+    transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    max-width: 0;
+    max-height: 0;
+    text-align: center;
+    vertical-align: top;
+    border: 1px solid transparent;
+
+    background-color: #1c262f;
+}
+
+.card-loaded, .card-loading {
+    min-width: 100%;
+    max-height: 600px;
+}
+
+.card-spinner {
+    transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+    overflow: hidden;
+    border-radius: 100%;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    z-index: 3;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0;
+}
+
+.card:before, .card-spinner {
+    position: absolute;
+    pointer-events: none;
+}
+
+.card-loaded .card-spinner {
+    opacity: 1;
+    width: 600px;
+    height: 600px;
+}
+
+.card-stat .card-wrapper {
+    min-height: 100px;
+}
+
+.card-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 3;
+}
+
+.card-header {
+    padding: 30px 20px;
+}
+
+.card-stat .card-header {
+    padding: 10px 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+
+    border-color: #37424c;
+}
+
+.card-stat .card-title {
+    padding: 0 10px;
+}
+
+.card-title {
+    margin: 5px 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none!important;
+}
+
+.card-loaded .card-wrapper .load-hide {
+    opacity: 1;
+}
+
+.card-wrapper .load-hide {
+    transition: all .8s cubic-bezier(.175,.885,.32,1.275);
+    opacity: 0;
+}
+
+.card-stat .card-body-stat {
+    padding: 10px 20px;
+}
+
+.card-stat .card-stat-content {
+    display: inline-block;
+    font-size: 3.6rem;
+    font-weight: 200;
+}
+
+.card-stat-label {
+    color: #bac3cf;
+}
+
+.card-stat-sub {
+    color: #78828d;
+}
+
+// animations
+@keyframes a{
+    0% {transform: scale(0) }
+    100% {transform: scale(1.0); opacity: 0}
+}
+        
+.card-loading .card-spinner:before {
+    animation: a 1.2s infinite ease-in-out;
+    animation-delay: 0;
+}
+
+.card-loading .card-spinner:after, .card-loading .card-spinner:before {
+    overflow: hidden;
+    border-radius: 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transform: scale(0);
+}
+
+.card-loading .card-spinner:after, .card-loading .card-spinner:before {
+    background-color: rgba(246,252,255,.02);
+}
+
+.card-loading .card-spinner:after {
+    animation: a 1.2s infinite ease-in-out;
+    animation-delay: .1s;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    right: 20px;
+}
+
+.card-loading .card-spinner {
+    opacity: 1;
+}

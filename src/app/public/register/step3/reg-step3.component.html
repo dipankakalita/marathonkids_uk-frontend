@@ -1,0 +1,41 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" fxLayout="column" fxLayoutGap="15px">
+	<div class="col-md-12">
+		<div class="col-md-6">
+			<div class="text-left">
+				<h1 class="text-left" > PREMIUM PACKAGE </h1>
+				<p>For just £1 per child receive the following: </p>
+				<ul>
+					<li>Uploading of pupil information onto the Digital Tracking System by the Marathon Kids UK team </li>
+					<li>Course and user set up </li>
+					<li>Printing, laminating and postage of pupil QR codes </li>
+					<li>Access to online certificates </li>
+					<li>Access to online scanning and tracking </li>
+				</ul>
+				<p>Once you have registered, a member of the Marathon Kids UK team will be in touch to arrange payment. Payment must be made in full before on boarding and access to QR Codes can be granted. A 10% discount will be added to any re-registering schools who gave running data in the previous year </p>
+			</div> 
+		</div> 
+		<div class="col-md-6">
+			<div class="text-left">
+				<h1 class="text-left" > BASIC PACKAGE </h1>
+				<p >Free access to your Digital Tracking System but without the add ons of the premium package. Basic package requires: </p>
+				<ul>
+					<li>Schools to do all on boarding and set up themselves, using the how to guides provided </li>
+					<li>Manual recording and inputting of running data to the Digital Tracking System </li>
+					<li>Access to automated certificates </li>
+					<li>No access to the Marathon Kids UK online scanning and tracking </li>
+				</ul>
+			</div> 
+		</div>
+	</div> 
+	<mat-radio-group aria-label="Select Your Package" formControlName="school_package">
+		<h2>Select Your Package</h2> 
+		<h2><mat-radio-button value="1" [checked]="true" >PREMIUM PACKAGE</mat-radio-button></h2>
+		<h2><mat-radio-button value="2" >BASIC PACKAGE</mat-radio-button></h2>
+	</mat-radio-group>
+	<div class="form-action" fxLayout="row" fxLayoutAlign="space-between center">
+		<button mat-raised-button type="button" class="btn btn--primary btn-continue"
+			(click)="onBack()">Back</button>
+		<button mat-raised-button type="submit" class="btn btn--primary btn-continue"
+			>Next</button>
+	</div>
+</form>

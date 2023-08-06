@@ -1,0 +1,97 @@
+<app-loading [condition]="loading"></app-loading>
+<div fxLayout="row" fxLayout="start center" fxLayoutGap="20px">
+    <mat-form-field>
+        <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+            autocomplete="off" />
+    </mat-form-field>
+
+    <div *ngIf="filterAccount" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="filter-name-container" fxLayoutAlign="center center">
+            <div class="filter-name-wrapper">
+                <div class="filter-name">{{ filterAccountName }}</div>
+                <span class="filter-name-clear" (click)="onNameClear()">
+                    <mat-icon>close</mat-icon>
+                </span>
+            </div>
+        </div>
+        <button routerLink="/dashboard/school" mat-raised-button color="accent" class="mr-10">Back to Schools</button>
+    </div>
+</div>
+
+
+<div class="dashboard-action">
+    <button mat-raised-button color="accent" (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+
+<div>
+    <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)" matSortActive="name"
+            matSortDirection="asc" matSortDisableClear>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+            </ng-container>
+
+            <!-- School Column -->
+            <ng-container matColumnDef="school">
+                <th mat-header-cell *matHeaderCellDef> Schools </th>
+                <td mat-cell *matCellDef="let row"> {{ row.school_name }} </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="local.email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Username / Email </th>
+                <td mat-cell *matCellDef="let row"> {{ row.user_email }} </td>
+            </ng-container>
+
+            <!-- Phone Number Column -->
+            <ng-container matColumnDef="phone_number">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
+                <td mat-cell *matCellDef="let row"> {{ row.phone_number }} </td>
+            </ng-container>
+
+            <!-- Verified -->
+            <ng-container matColumnDef="verified">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Verified </th>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="!row.local_email && !row.verified"><i class="icon-unchecked"></i></span>
+                    <span *ngIf="row.local_email && row.verified"><i class="icon-tick"></i></span>
+					
+                    <span *ngIf="row.local_email && !row.verified && !row.resent"><i class="icon-input-email"
+                        (click)="onResend(row)" matTooltip="Send Invite"></i></span>
+					<span *ngIf="row.local_email && !row.verified && !row.resent"><i class="email-active" [ngClass]="'icon-unchecked'" (click)="onUserVerify(row)"  matTooltip="Verify Now"></i></span>
+					
+                    <span *ngIf="row.local_email && !row.verified && row.resent" matTooltip="Send Invite"><i class="icon-recipients"></i></span>
+					
+                </td>
+            </ng-container>
+
+            <!-- Permission Profile Column -->
+            <ng-container matColumnDef="permission">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Permission Profile </th>
+                <td mat-cell *matCellDef="let row"> {{ row.permission }} </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row" class="action-col">
+                    <div>
+                        <mat-icon aria-label="Edit User" class="btn-action mr-10" (click)="onEdit(row)">edit</mat-icon>
+                        <mat-icon aria-label="Delete User" class="btn-action" (click)="onDelete(row.id)">delete
+                        </mat-icon>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" (page)="handlePage($event)" #paginator></app-paginator>
+</div>

@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" fxLayout="column" fxLayoutGap="15px">
+    
+    <!-- contact day -->
+    <mat-form-field>
+        <mat-label>Please tell us the best day/s to contact you</mat-label>
+        <mat-select formControlName="school_contact_days" disableOptionCentering multiple>
+            <mat-option *ngFor="let day of weekDays" [value]="day.value">{{ day.label }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="isInvalid('school_contact_days')">Field is required</mat-error>
+    </mat-form-field>
+    <!--./ contact day -->
+
+    <!-- contact time -->
+    <mat-form-field>
+        <input formControlName="school_contact_times" matInput
+            placeholder="Please tell us the best time/s to contact you" autocomplete="off">
+        <label class="input_glyph-wrapper">
+            <i class="input_glyph icon-input-text"></i>
+        </label>
+        <mat-error *ngIf="isInvalid('school_contact_times')">Field is required</mat-error>
+    </mat-form-field>
+    <!-- contact time -->
+
+    <div class="form-action" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" class="btn btn--primary btn-continue"
+            (click)="onBack()">Back</button>
+        <button mat-raised-button type="submit" class="btn btn--primary btn-continue"
+            [disabled]="form.invalid">Register</button>
+    </div>
+</form>

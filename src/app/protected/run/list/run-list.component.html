@@ -1,0 +1,62 @@
+<app-loading [condition]="loading"></app-loading>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+	<mat-form-field>
+		<input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()"
+			autocomplete="off" />
+	</mat-form-field>
+
+	<button mat-raised-button color="accent" class="mr-10 pull-right" (click)="syncSessionDTS(true)">Sync Data</button>
+</div>
+<div class="dashboard-action">
+    <button mat-raised-button color="accent" (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>	
+<div>
+	<p class="color-text-grey">Note: Runs with overall zero total distance will not be considered for sessions, participation and attendance calculations.</p>
+    <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortData($event)"
+            matSortActive="start_date" matSortDirection="desc" matSortDisableClear>
+
+            <!-- Start Date Column -->
+            <ng-container matColumnDef="start_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                <td mat-cell *matCellDef="let row"> {{ row.start_date | date:'dd/MM/yyyy' }} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="authService.isKrfAccount(); else noKrf">{{ row.name_field }}</span>
+                    <ng-template #noKrf>
+                        <a class="link-run" [routerLink]="['/dashboard/run/', row._id]">{{ row.name_field }}</a>
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="total_distance">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Distance </th>
+                <td mat-cell *matCellDef="let row"> {{ row.total_distance / 1000 | number : '0.1-2'}}km</td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row" class="action-col">
+                    <div>
+                        <mat-icon aria-label="Edit User" class="btn-action mr-10" (click)="onEdit(row)">edit</mat-icon>
+                        <mat-icon aria-label="Delete User" class="btn-action" (click)="onDelete(row._id)">delete
+                        </mat-icon>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" (page)="handlePage($event)" #paginator></app-paginator>
+</div>

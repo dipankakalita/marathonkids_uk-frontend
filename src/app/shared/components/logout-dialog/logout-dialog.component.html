@@ -1,0 +1,17 @@
+<div class="dialog-header">
+    <div class="header-title">
+        Logged in elsewhere
+    </div>
+</div>
+<div class="dialog-body">
+    You may have logged in from your mobile or another computer.
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+        <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+            (click)="dialogRef.close(false)">Reset Password and Logout</button>
+        <button type="submit" mat-raised-button class="btn btn-warning" fxFlex="50" fxFlexFill
+            (click)="dialogRef.close(true)">Logout & Re-login</button>
+    </div>
+</div>

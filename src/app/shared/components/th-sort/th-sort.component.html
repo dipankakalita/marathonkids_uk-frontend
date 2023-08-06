@@ -1,0 +1,6 @@
+﻿<div class="th-sort" (click)="onChangeSort()">
+    {{ colName }} &nbsp;
+    <mat-icon *ngIf="direction == 'asc'" class="th-sort-icon down">arrow_upward</mat-icon>
+    <mat-icon *ngIf="direction == 'desc'" class="th-sort-icon down">arrow_downward</mat-icon>
+    <span *ngIf="direction == ''" class="sort-none">&nbsp;</span>
+</div>

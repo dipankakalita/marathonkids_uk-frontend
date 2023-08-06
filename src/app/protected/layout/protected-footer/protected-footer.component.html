@@ -1,0 +1,38 @@
+<div class="dashboard-footer">
+    <div class="footer" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between">
+        <ul *ngIf="authService.isMainAdmin(); else blank" class="ul-menu ul-footer t--small">
+            <li>
+                <span>
+                    <a class="fg-grey" (click)="onRunnerExport($event, 'runners')" href="#">Runner Export</a>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a class="fg-grey" (click)="onRunnerExport($event, 'courses')" href="#">Course Export</a>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a class="fg-grey" (click)="onRunnerExport($event, 'accounts')" href="#">Schools Export</a>
+                </span>
+            </li>
+        </ul>
+
+        <ng-template #blank>
+            <div></div>
+        </ng-template>
+        
+        <ul class="ul-menu ul-footer t--small footer-copyright" style="max-width: 500px; text-align: center">
+            <li>
+                
+            </li>
+        </ul>
+    </div>
+    <div class="ul-menu ul-footer t--small footer-copyright" style="text-align: center;">
+        <span style="max-width: 800px; display: inline-block; color: #78828d !important; line-height: 1.5">Marathon Kids in the UK is a programme of Kids Run Free.
+            Kids Run Free is a charity registered with the Charity Commission in England and Wales (1146636) and a registered Company Limited by Guarantee, England and Wales (07465668).
+            Registered office: Kensall Cottages, Stratford Road, Oversley Green, Alcester, Warwickshire, B49 6PH.
+            <br /><br />
+            © 2020 Kids Run Free. All rights reserved</span>
+    </div>
+</div>

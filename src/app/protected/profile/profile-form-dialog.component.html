@@ -1,0 +1,44 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px">
+        <!-- name -->
+        <mat-form-field>
+            <input formControlName="name" matInput placeholder="Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ name -->
+
+        <!-- email -->
+        <mat-form-field>
+            <input formControlName="email" matInput placeholder="Email" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('email')">
+                <ng-container *ngIf="controls.email.errors.required">Field is required</ng-container>
+                <ng-container *ngIf="controls.email.errors.pattern">Only vaid email addresses are allowed</ng-container>
+            </mat-error>
+        </mat-form-field>
+        <!--./ email -->
+
+        <!-- phone number -->
+        <mat-form-field>
+            <input formControlName="phone_number" matInput placeholder="Phone Number" autocomplete="off" />
+        </mat-form-field>
+        <!--./ phone number -->
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

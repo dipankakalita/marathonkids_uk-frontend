@@ -1,0 +1,38 @@
+<app-loading [condition]="loading"></app-loading>
+
+<mat-form-field>
+    <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()" autocomplete="off" />
+</mat-form-field>
+<button *ngIf="isMainAdmin && accountType =='Parks'" mat-raised-button color="accent" class="mr-10 pull-right" (click)="syncLeaderboardData()">Sync Leaderboard</button>
+<div *ngIf="isMainAdmin && accountType=='Parks'"><mat-hint>Note: Attendance is calculated based on Last 52 weeks from today.</mat-hint></div>
+
+<div class="table-responsive">
+    <table>
+		<thead>
+			<tr>
+				<th app-th-sort [colName]="'Name'" (sort)="onSortData($event, 'name')" >Name</th>
+				<th app-th-sort [colName]="'Average Per Runner'" (sort)="onSortData($event, 'average_per_runner')">Average Per Runner</th>
+				<th app-th-sort [colName]="'Total Distance'" (sort)="onSortData($event, 'total_distance')">Total Distance</th>
+				<th *ngIf="accountType!=='Parks'" app-th-sort [colName]="'Participation'" (sort)="onSortData($event, 'participation')">Participation</th>
+                <th *ngIf="isMainAdmin && accountType =='Parks'" app-th-sort [colName]="'First Session'" (sort)="onSortData($event, 'firstrunsession')"></th>
+                <th *ngIf="isMainAdmin && accountType =='Parks'" app-th-sort [colName]="'Participation (Monthly)'" (sort)="onSortData($event, '_total_monthly_attendance')"></th>
+                <th *ngIf="isMainAdmin && accountType =='Parks'" app-th-sort [colName]="'Participation (Fortnightly)'" (sort)="onSortData($event, '_total_fortnightly_attendance')"></th>
+                <th *ngIf="isMainAdmin && accountType =='Parks'" app-th-sort [colName]="'Participation (Weekly)'" (sort)="onSortData($event, '_total_weekly_attendance')"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let row of leaderboards">
+				<td>{{ row.account_name }}</td>
+				<td>{{ row.average_per_runner }}</td>
+				<td>{{ row.total_distance }}</td>
+				<td *ngIf="accountType!=='Parks'" >{{ row.participation }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row.firstrunsession && (row.firstrunsession!="1970-01-01") ? (row.firstrunsession| date:'dd-MM-yyyy') : '-') }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_monthly_attendance ? row._total_monthly_attendance : '0') }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_fortnightly_attendance ? row._total_fortnightly_attendance : '0') }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ (row._total_weekly_attendance ? row._total_weekly_attendance : '0') }}</td>
+			</tr> 
+		</tbody>
+	</table>
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" 
+        (page)="handlePage($event)" #paginator></app-paginator>
+</div>

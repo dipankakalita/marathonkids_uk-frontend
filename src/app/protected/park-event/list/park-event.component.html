@@ -1,0 +1,64 @@
+<app-loading [condition]="loading"></app-loading>
+<mat-form-field>
+    <input matInput placeholder="Filter" [(ngModel)]="searchForm.filter" (keydown)="filterChanged()" autocomplete="off" />
+</mat-form-field>
+<div *ngIf="isMainAdmin && accountType =='Parks'"> 
+	<span style="display:inline-block;"><h1>{{totalCount}} Park Events </h1></span>&nbsp;<span style="display:inline-block;"><p>(with Runners : {{totalrunner}})</p></span> 
+	<button mat-raised-button color="accent" class="mr-10 pull-right" (click)="syncEventData()">Sync Park Events</button>
+</div> 
+<div class="dashboard-action">
+    <button mat-raised-button color="accent"  (click)="onAdd()"><mat-icon>add</mat-icon></button>
+</div>
+
+<div class="table-responsive">
+    <table>
+		<thead>
+			<tr *ngIf="isMainAdmin && accountType=='Schools'">
+				<th app-th-sort [colName]="'Launch Date'" (sort)="onSortData($event, 'start_date')" ></th>
+				<th app-th-sort [colName]="'Name'" (sort)="onSortData($event, 'name')">Name</th>
+				<th>Action</th>
+			</tr>
+			<tr *ngIf="isMainAdmin && accountType=='Parks'">
+				<th app-th-sort [colName]="'Name'" (sort)="onSortData($event, 'name')" >Name</th>
+				<!--<th app-th-sort [colName]="'Park'" (sort)="onSortData($event, '_park_name')">Park</th>-->
+				<th app-th-sort [colName]="'County'" (sort)="onSortData($event, '_county_name')">County</th>
+				<th app-th-sort [colName]="'Town'" (sort)="onSortData($event, '_town_name')">Town</th>
+				<th app-th-sort [colName]="'Runners'" (sort)="onSortData($event, 'runnercount')">Runners</th>
+				<th app-th-sort [colName]="'Volunteers'" (sort)="onSortData($event, 'volunteercount')">Volunteers</th>
+				<th app-th-sort [colName]="'Launch Date'" (sort)="onSortData($event, 'start_date')"></th>
+				<th app-th-sort [colName]="'Last Run Session'" (sort)="onSortData($event, 'lastrunsession')">Last Run Session</th>
+				<th app-th-sort [colName]="'Active'" (sort)="onSortData($event, 'deleted')"></th>
+				<th app-th-sort [colName]="'Parents'" (sort)="onSortData($event, 'parentcount')">Parents</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let row of events">
+				<td *ngIf="isMainAdmin && accountType=='Schools'">{{ row.start_date | date:'dd-MM-yyyy'}}</td>
+				<td *ngIf="isMainAdmin && accountType=='Schools'">{{ row.name }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.name }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.countyData.length > 0 ? row.countyData[0].name : '-' }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.townData.length > 0 ? row.townData[0].name : '-' }}</td>
+                <!--<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.coursesData[0].name | titlecase }}</td>-->
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.runnercount }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.volunteercount }}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'" >{{ row.start_date ? ( row.start_date | date:'dd-MM-yyyy') : '-'}}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{row.lastrunsession ? (row.lastrunsession | date:'dd-MM-yyyy') : '-'}}</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'"><i [ngClass]="row.deleted === false ? 'icon-tick' : 'icon-unchecked'" ></i>&nbsp;</td>
+				<td *ngIf="isMainAdmin && accountType=='Parks'">{{ row.parentcount }}</td> 		  
+				<td *ngIf="isMainAdmin">  
+					<div>
+						<mat-icon aria-label="Edit User" class="btn-action mr-10" (click)="onEdit(row)">edit</mat-icon> 
+						<mat-icon aria-label="Delete User" class="btn-action mr-10" (click)="onDelete(row._id)">delete</mat-icon> 
+						<span *ngIf="accountType=='Parks'"><mat-icon aria-label="View Parents" class="btn-action" (click)="parentsList(row)">group</mat-icon></span>
+					</div> 
+				</td>
+			</tr> 
+		</tbody>
+	</table>
+    <!-- <mat-paginator [length]="totalCount" [hidePageSize]="true" [pageSize]="pageSize" -->
+    <!-- (page)="handlePage($event)" #paginator></mat-paginator> -->
+    
+    <app-paginator [length]="totalCount" [pageSize]="pageSize" 
+        (page)="handlePage($event)" #paginator></app-paginator>
+</div>

@@ -1,0 +1,21 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="certificate-page-wrapper">
+    <div class="qr-runner-pairing-wrapper" *ngFor="let runner of runners">
+        <div class="qr-runner-pairing-header">
+            <h1 class="qr-runner-pairing-title">
+                Marathon Kids Enrolment</h1>
+            <h2 class="qr-runner-pairing-name">
+                <span>{{ runner.name }}</span>
+                <span>({{ runner.form_name }})</span>
+            </h2>
+            <p class="qr-runner-pairing-desc">
+                To track how far your kids have run, download the KRF Running App from the Apple or Android stores, and
+                scan this QR code when you add or edit a runner (using the icon in the top right corner). This will
+                add together any running your child has done in school with running they have done outside of
+                school.</p>
+        </div>
+        <div class="qr-runner-pairing-qr">
+            <qrcode [qrdata]="runner.merge_id" [width]="200" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+        </div>
+    </div>
+</div>

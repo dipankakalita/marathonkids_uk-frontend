@@ -1,0 +1,50 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        Re-Registration for next year
+    </div>
+</div>
+<div class="dialog-body" fxLayout="column" fxLayoutGap="20px"  >
+    Registration for the next academic year is open.<br />
+    Will you be running again next year with the Premium or Basic Package ?
+	<div class="col-md-12 mb-0">
+		<div class="col-md-6">
+			<div class="text-left">
+				<h1 class="text-left" > PREMIUM PACKAGE </h1>
+				<p>For just £1 per child receive the following: </p>
+				<ul>
+					<li>Uploading of pupil information onto the Digital Tracking System by the Marathon Kids UK team </li>
+					<li>Course and user set up </li>
+					<li>Printing, laminating and postage of pupil QR codes </li>
+					<li>Access to online certificates </li>
+					<li>Access to online scanning and tracking </li>
+				</ul>
+				<p>Once you have registered, a member of the Marathon Kids UK team will be in touch to arrange payment. Payment must be made in full before on boarding and access to QR Codes can be granted. A 10% discount will be added to any re-registering schools who gave running data in the previous year </p>
+			</div> 
+		</div> 
+		<div class="col-md-6">
+			<div class="text-left">
+				<h1 class="text-left" > BASIC PACKAGE </h1>
+				<p >Free access to your Digital Tracking System but without the add ons of the premium package. Basic package requires: </p>
+				<ul>
+					<li>Schools to do all on boarding and set up themselves, using the how to guides provided </li>
+					<li>Manual recording and inputting of running data to the Digital Tracking System </li>
+					<li>Access to automated certificates </li>
+					<li>No access to the Marathon Kids UK online scanning and tracking </li>
+				</ul>
+			</div> 
+		</div>
+	</div> 
+	<mat-radio-group aria-label="Select Your Package" formControlName="school_package" class="text-left">
+		<h3>Select Your Package</h3> 
+		<h3><mat-radio-button value="1" [checked]="curAccount.school_package == 1" (change)="onItemChange($event)" >PREMIUM PACKAGE</mat-radio-button></h3>
+		<h3><mat-radio-button value="2" [checked]="(curAccount.school_package == 2) || (curAccount.school_package == 0)" (change)="onItemChange($event)" >BASIC PACKAGE</mat-radio-button></h3>
+	</mat-radio-group>
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" fxLayoutGap="20px" class="h-100" fxLayoutAlign="center center">
+        <button type="button" mat-raised-button class="btn btn--primary" fxFlex="50" (click)="onOk()" [disabled]="loading">Yes</button>
+        <button type="button" mat-raised-button class="btn btn--danger" fxFlex="50" (click)="onRemind()" [disabled]="loading">Remind Later</button>
+    </div>
+</div>

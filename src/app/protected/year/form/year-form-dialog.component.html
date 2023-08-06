@@ -1,0 +1,64 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body" fxLayout="column" fxLayoutGap="20px">
+        <!-- Year Name -->
+        <mat-form-field>
+            <input formControlName="name" matInput placeholder="Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Year Name -->
+
+        <!-- Start Date -->
+        <mat-form-field>
+            <input formControlName="start_date" matInput [matDatepicker]="start_date" placeholder="Start Date"
+                (click)="start_date.open()" readonly>
+            <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+            <mat-datepicker #start_date></mat-datepicker>
+            <mat-error *ngIf="isInvalid('start_date')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Start Date -->
+
+        <!-- End Date -->
+        <mat-form-field>
+            <input formControlName="end_date" matInput [matDatepicker]="end_date" placeholder="End Date"
+                (click)="end_date.open()" readonly>
+            <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+            <mat-datepicker #end_date></mat-datepicker>
+            <mat-error *ngIf="isInvalid('end_date')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ End Date -->
+
+        <!-- Year Region -->
+        <mat-form-field>
+            <mat-label>Year Region</mat-label>
+            <mat-select formControlName="_academic_year_region">
+                <mat-option *ngFor="let region of yearRegions" [value]="region._id">{{ region.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="isInvalid('_academic_year_region')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <!--./ Year Region -->
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

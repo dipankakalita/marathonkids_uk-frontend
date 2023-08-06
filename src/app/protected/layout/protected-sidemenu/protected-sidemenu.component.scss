@@ -1,0 +1,28 @@
+.menu-group {
+    margin-bottom: 40px;
+}
+
+.li-menu-item {
+    background-color: #000;
+    margin: 5px 0;
+
+    a {
+        font-size: 1.4rem;
+        display: block;
+        cursor: pointer;
+        margin: 2px 0;
+        padding: 10px;
+        background-color: #1c262f;
+        border-left-width: 5px;
+        border-left-style: solid;
+        border-color: #1c262f;
+
+        &.active {
+            border-color: #4286FF;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

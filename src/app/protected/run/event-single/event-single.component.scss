@@ -1,0 +1,27 @@
+tbody {
+    th {
+        background-color: #1c262f;
+    }
+
+    td {
+        background-color: #202a34
+    }
+}
+
+.form-input {
+    background-color: #1c262f;
+    overflow: hidden;
+    border-radius: 5px;
+    transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+    color: #bac3cf;
+    border: 0 none;
+    padding: 5px 10px;
+    width: 150px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+span{
+    font-size: 13px;
+    margin-left: 10px;
+}

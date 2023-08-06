@@ -1,0 +1,109 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="login-page-wrapper public-page-wrapper">
+    <!-- lock icon on center -->
+    <div class="lock-icon-shadow"></div>
+    <div class="lock-icon-wrapper">
+        <div class="lock-icon-container">
+            <i class="icon-locked fg-grey"></i>
+        </div>
+    </div>
+    <!--./ lock icon on center -->
+
+    <!-- background image -->
+    <div class="login-background-wrapper">
+        <div class="login-background-container">
+            <div class="login-background" src="assets/images/bg1.jpg"></div>
+        </div>
+    </div>
+    <!--./ background image -->
+
+    <!-- login area -->
+    <div class="login-area">
+
+        <!-- form area -->
+        <div class="login-form-wrapper text-center">
+			<div class="notice-board"> 
+                <div class="notice-board-item" *ngFor="let row of notices">
+                    <h3>{{ row.heading }} </h3>
+                    <p>{{ row.message }}</p>
+                </div>
+            </div>
+			
+            <!-- form team -->
+            <div class="form-team-container" *ngIf="loginStep == 1">
+                <h1 class="login-team-title color-text-grey">Sign in to your team</h1>
+                <p class="login-team-desc">Enter your team's name.</p>
+
+                <app-alert></app-alert>
+                <form [formGroup]="teamForm" (ngSubmit)="submitTeam()" fxLayout="column">
+                    <mat-form-field>
+                        <input matInput placeholder="Team" autocomplete="off" formControlName="subdomain">
+                        <label for="subdomain" class="input_glyph-wrapper">
+                            <i class="input_glyph icon-users"></i>
+                        </label>
+                        <mat-error *ngIf="isInvalid(teamForm, 'subdomain', submittedTeam)">Field is required</mat-error>
+                    </mat-form-field>
+    
+                    <div class="login-action-container">
+                        <button mat-raised-button type="submit" class="btn btn--primary btn-go" [disabled]="teamForm.invalid">Go</button>
+                    </div>
+                </form>
+            </div>
+            <!-- form team -->
+
+            <!-- form login -->
+            <div class="form-login-container" *ngIf="loginStep == 2">
+                <h1 class="login-team-title color-text-blue">KidsRunFree Account</h1>
+                <p class="login-team-desc">Sign in to get started.</p>
+
+                <app-alert></app-alert>
+                
+                <form [formGroup]="loginForm" (ngSubmit)="submitLogin($event)" fxLayout="column" fxLayoutGap="10px">
+                    <mat-form-field>
+                        <input formControlName="email" matInput placeholder="Username / Email" autocomplete="off">
+                        <label for="email" class="input_glyph-wrapper">
+                            <i class="input_glyph icon-input-email"></i>
+                        </label>
+                        <mat-error *ngIf="isInvalid(loginForm, 'email', submittedLogin)">
+                            <ng-container *ngIf="loginControls.email.errors.pattern">Only vaid email addresses are allowed</ng-container>
+                            <ng-container *ngIf="loginControls.email.errors.required">Field is required</ng-container>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input formControlName="password" matInput placeholder="Password" type="password"
+                            autocomplete="off" appShowPassword>
+                        <mat-error *ngIf="isInvalid(loginForm, 'password', submittedLogin)">Field is required</mat-error>
+                    </mat-form-field>
+    
+                    <div class="login-action-container">
+                        <button mat-raised-button type="submit" class="btn btn--primary btn-go"
+                            [disabled]="loginForm.invalid">Login</button>
+                        <!-- <br /><br /><br />
+                        <button mat-raised-button type="button" class="btn btn--primary btn-go btn-back"
+                            (click)="goFirst($event)">Back to Teamname</button> -->
+                    </div>
+                </form>
+            </div>
+            <!--./ form login -->
+
+        </div>
+        <!--./ form area -->
+
+        <!-- login area footer -->
+        <div class="login-area-footer">
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+                <a *ngIf="loginStep == 1" routerLink="/forgotten-team">Forgotten Team Name</a>
+                <a *ngIf="loginStep == 2" class="color-text-blue" routerLink="/forgotten-password">Forgotten/Change Password</a>
+                <a [ngClass]="{'color-text-blue': loginStep == 2}" routerLink="/registration">Register your school</a>
+            </div>
+
+            <div class="login-area-footer-copyright fg-grey">
+                © <a href="#" class="inline fg-grey" (click)="goFirst($event)">2020 Kids Run Free. All rights reserved</a>
+            </div>
+        </div>
+        <!--./ login area footer -->
+
+    </div>
+    <!--./ login area -->
+</div>

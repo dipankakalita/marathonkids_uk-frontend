@@ -1,0 +1,22 @@
+ // multiple checkbox background
+ ::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
+    background: #69b871 !important;
+}
+.form-action{
+	flex-direction: row; 
+	box-sizing: border-box; 
+	display: flex; 
+	place-content: center space-between; 
+	align-items: center;
+}
+
+.mat-radio-outer-circle, .mat-radio-inner-circle, .mat-radio-container{
+    height: 30px;
+    width: 30px;
+}
+.mat-radio-label-content{
+    padding-left: 25px;
+}
+.mat-radio-group{
+	margin-bottom: 0px;
+}

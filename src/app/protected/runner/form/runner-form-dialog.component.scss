@@ -1,0 +1,21 @@
+.qrcode-container {
+    overflow: hidden;
+    border-radius: 5px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #37424c;
+
+    ::ng-deep img {
+        margin: 0 auto;
+    }
+}
+
+.mat-tab-label, .mat-tab-label-active {
+    min-width: 120px !important;
+}
+
+.dialog-body h4 {
+    font-size: 17px;
+}

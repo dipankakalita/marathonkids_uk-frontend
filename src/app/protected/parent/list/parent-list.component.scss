@@ -1,0 +1,34 @@
+.icon-input-email {
+    cursor: pointer;
+}
+
+.icon-recipients {
+    color: #69b871;
+}
+
+.filter-name-wrapper {
+    border-radius: 5px;
+    border: 1px solid #37424c;
+    
+
+    .filter-name {
+        padding: 5px 10px;
+        font-size: 1.3rem;
+        display: inline-block;
+    }
+
+    .filter-name-clear {
+        .mat-icon {
+            font-size: 1.3rem;
+            font-weight: 800;
+            width: auto;
+            height: auto;
+            padding: 5px 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #202a34;
+            }
+        }
+    }
+}

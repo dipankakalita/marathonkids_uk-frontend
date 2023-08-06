@@ -1,0 +1,11 @@
+<div class="dialog-body">
+    <p>{{ message }}</p>
+    <mat-checkbox [(ngModel)]="neverShow">Do not ask again</mat-checkbox>
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" class="h-100" fxLayoutAlign="center center">
+        <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+            (click)="onClose()">Ok</button>
+    </div>
+</div>

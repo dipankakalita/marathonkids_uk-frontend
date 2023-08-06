@@ -1,0 +1,38 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="dialog-body">
+        <mat-form-field class="mb-15">
+            <input formControlName="name" matInput placeholder="Name" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('name')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input appNumberOnly formControlName="distance" matInput placeholder="Distance(Meters)"
+                onkeydown="return event.keyCode !== 69" autocomplete="off" />
+            <mat-error *ngIf="isInvalid('distance')">
+                Field is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="isKrfAccount" class="mb-15">
+            <input formControlName="post_code" matInput placeholder="Post Code" autocomplete="off" />
+        </mat-form-field>
+    </div>
+
+    <div class="dialog-footer">
+        <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+            <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+                (click)="onCancel()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn btn--primary" fxFlex="50" fxFlexFill
+                [disabled]="form.invalid">Save</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,11 @@
+﻿<div class="app-paginator-wrapper" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+    <div class="paginator-page-label"><span style="margin-right: 10px">Page {{ pageIndex }}</span> of <span style="margin-left: 10px">{{ pageCount }}</span></div>
+    <div class="paginator-action">
+        <button mat-button (click)="onPrevious()" class="mr-10" [disabled]="pageIndex == 1">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-button (click)="onForward()" [disabled]="pageIndex >= pageCount">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+</div>

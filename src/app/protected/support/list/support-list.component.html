@@ -1,0 +1,187 @@
+<div fxLayout="column" fxLayoutGap="15px">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr class="text-white">
+					<th class="text-white">Priority Support / Assissested Onboarding</th>
+					<th class="th-action" *ngIf="curAccount.school_scanner == false" ><a href="#" (click)="onUpgrade($event)" class="upgrade-btn">UPGRADE</a></th>
+					<th class="text-white" *ngIf="curAccount.school_scanner == true" >To get priority support / assissested onboarding please contact schools@marathonkids.co.uk and 987654321 </th>
+                </tr> 
+                <tr>
+					<th class="th-label">Official Documents</th>
+					<th class="th-action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-label">DTS Permission Letter</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/DTS_Permission_Letter.docx'" target="_self">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">DTS Privacy Policy</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/DTS Privacy Policy.docx'" target="_self">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">DTS Terms and Conditions</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/DTS Terms and Conditions.docx'" target="_blank">Download</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <th class="th-label">Films and How To Guides</th>
+                <th class="th-action">Action</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-label">Premium Package Set Up Guide</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Premium_Package_Setting_Up_MK_Guide.pdf'" target="_blank">View</a> | 
+                        <a [href]="resourcePath + '/Premium_Package_Setting_Up_MK_Guide.pdf'" target="_blank">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Basic Package Set UP Guide</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Basic_Package_Setting_Up_MK_Guide.pdf'" target="_blank">View</a> | 
+                        <a [href]="resourcePath + '/Basic_Package_Setting_Up_MK_Guide.pdf'" target="_blank">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">How to Export From SIMS</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/How to Export From SIMS.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">How to Upload a CSV File to your DTS</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/How to Upload a CSV File to your DTS.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Using Your QR Codes and Scanning</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Using_Your_QR_Codes_&_Scanning.pdf'" target="_blank">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Assembly Launch Day Film</td>
+                    <td class="td-action">
+                        <a href="https://vimeo.com/232814154/d328874ed5" target="_blank">View</a> | 
+                        <a [href]="resourcePath + '/Marathon Kids Assembly Video.mp4'" target="_blank">Download</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <th class="th-label">Teachers Resources</th>
+                <th class="th-action">Action</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-label">Inspiring Participation Guide</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Inspiring_Participation_Guide.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Celebrating Marathon Kids</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Celebration_Guide.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Colleague Engagement Document</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Colleague_Engagement_Guide.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Marathon Champions Guide</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Chaimpions Guide.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Parent FAQs</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Parent_FAQs.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Physical Activity Cards</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Physical Activity Cards.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Poster Child</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Kids Flyer.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Poster Teacher</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Posters – teacher and child engagement posters.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Winter Running Guide</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Winter_Running_Guide.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <th class="th-label">Kilometre Logs</th>
+                <th class="th-action">Action</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-label">Kilometre Log 1</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Log 1.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Kilometre Log 2</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Log 2.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Kilometre Log 3</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Log 3.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-label">Kilometre Log 4</td>
+                    <td class="td-action">
+                        <a [href]="resourcePath + '/Marathon Log 4.pdf'" target="_blank">Open</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<app-loading [condition]="loading"></app-loading>
+<h2>{{ eventData?.name }}</h2>
+<p class="color-text-grey">Tip: for faster inputs use the tab key on your keyboard to quickly jump to the next runner's laps</p>
+<div class="table-responsive">
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Laps</th>
+            <th>Distance</th>
+        </thead>
+
+        <tbody>
+            <ng-container *ngFor="let group of formObjs">
+                <tr>
+                    <th colspan="3">{{ group.name }} <span *ngIf="runnerDistance > 0">(Only Reg Groups with actual running data are displayed.)</span> </th>
+                </tr>
+                <ng-container *ngFor="let item of runnerData">
+                    <tr *ngIf="item._form_id == group.id">
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <input type="text" class="form-input" [(ngModel)]="item.newValue" />
+                        </td>
+                        <td>{{ (item.newValue * courseData.distance) / 1000 | number : '0.1-2' }} km</td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+    <button mat-raised-button color="accent" class="w-100-p" (click)="onSave()">Save</button>
+</div>

@@ -1,0 +1,17 @@
+<app-loading [condition]="loading"></app-loading>
+<div class="dialog-header">
+    <div class="header-title">
+        {{ dlgTitle }}
+    </div>
+</div>
+<div class="dialog-body" fxLayout="column" fxLayoutGap="20px">
+    It's great to have you back for another year of running!<br /><br />
+    First thing's first you'll need to update your Runners page by uploading this year's kids CSV File. Then you can get
+    up and running! If you need any help, please refer to our Support Tools or email marathonkids@kidsrunfree.co.uk
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" fxLayoutGap="20px" class="h-100" fxLayoutAlign="center center">
+        <button type="button" mat-raised-button class="btn btn--primary" fxFlexFill (click)="onOk()">Ok</button>
+    </div>
+</div>

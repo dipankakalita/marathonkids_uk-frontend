@@ -1,0 +1,16 @@
+<div class="dialog-header">
+    <div class="header-title">
+        {{ title }}
+    </div>
+</div>
+<div class="dialog-body" [innerHTML]="confirmMessage">
+</div>
+
+<div class="dialog-footer">
+    <div fxLayout="row" fxLayoutGap="20px" class="h-100">
+        <button type="button" class="btn" fxFlex="50" fxFlexFill mat-raised-button
+            (click)="dialogRef.close(false)">Cancel</button>
+        <button type="submit" mat-raised-button class="btn" [ngClass]="{'btn-warning' : title == 'Confirm Delete', 'btn--primary': title != 'Confirm Delete'}" fxFlex="50" fxFlexFill
+            (click)="dialogRef.close(true)">{{ title == 'Confirm Delete' ? 'Delete' : 'Ok' }}</button>
+    </div>
+</div>

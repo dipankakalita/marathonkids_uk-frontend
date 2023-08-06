@@ -1,0 +1,71 @@
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+
+    table {
+        border-color: #37424c;
+        box-shadow: 0 3px 5px 0 rgba(0,0,0,.3);
+        overflow: hidden;
+        border-radius: 5px;
+        width: 100%;
+        border-spacing: 0;
+        border-width: 1px;
+        border-style: solid;
+        transform: translateZ(0);
+    
+        thead {
+            background-color: #1c262f !important;
+    
+            th {
+                height: 60px;
+                font-size: 1.6rem;
+                text-align: left;
+            }
+    
+            td:first-child, th:first-child {
+                position: relative;
+                transition: none;
+                border-top-left-radius: 5px;
+            }
+        }
+
+        td, th {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgba(255, 255, 255, 0.12);
+            padding: 10px 20px;
+            color: #78828d;
+        }
+    
+        td.action-col {
+            text-align: left;
+        }
+    
+        td {
+            background-color: #202a34;
+        }
+    
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+    
+        td:first-child:before, th:first-child:before {
+            background: linear-gradient(135deg,#1e2831,#1e2831 49%,#1c262f 50%,#1c262f);
+        }
+        
+        .mat-sort-header-button, .mat-cell, .mat-footer-cell {
+            font-size: 1.6rem;
+        }
+    } 
+    
+    .mat-paginator {
+        background: #202a34;
+        border-radius: 5px;
+        border: 1px solid #37424c;
+        font-size: 1.6rem;
+    
+        .mat-paginator-navigation-next, .mat-paginator-navigation-previous {
+            cursor: pointer !important;
+        }
+    }
+}
